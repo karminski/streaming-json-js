@@ -84,6 +84,219 @@ class Lexer {
         this.PaddingContent = "";
     }
 
+    // check if JSON stream stopped at an object property's key start, like `{"`
+    streamStoppedInAnObjectKeyStart() {
+        // `{`, `"` in stack, or `,`, `"` in stack
+        const case1 = [
+            TOKEN_LEFT_BRACE,
+            TOKEN_QUOTE,
+        ];
+        const case2 = [
+            TOKEN_COMMA,
+            TOKEN_QUOTE,
+        ];
+        // `}` in mirror stack
+        const case3 = [
+            TOKEN_RIGHT_BRACE,
+        ];
+        return (this.matchStack(this.TokenStack, case1) || this.matchStack(this.TokenStack, case2))
+            && this.matchStack(this.MirrorTokenStack, case3);
+    }
+
+    // check if JSON stream stopped in an object property's key, like `{"field`
+    streamStoppedInAnObjectKeyEnd() {
+        // `{`, `"`, `"` in stack, or `,`, `"`, `"` in stack
+        const case1 = [
+            TOKEN_LEFT_BRACE,
+            TOKEN_QUOTE,
+            TOKEN_QUOTE,
+        ];
+        const case2 = [
+            TOKEN_COMMA,
+            TOKEN_QUOTE,
+            TOKEN_QUOTE,
+        ];
+        // `"`, `:`, `n`, `u`, `l`, `l`, `}` in mirror stack
+        const case3 = [
+            TOKEN_RIGHT_BRACE,
+            TOKEN_ALPHABET_LOWERCASE_L,
+            TOKEN_ALPHABET_LOWERCASE_L,
+            TOKEN_ALPHABET_LOWERCASE_U,
+            TOKEN_ALPHABET_LOWERCASE_N,
+            TOKEN_COLON,
+            TOKEN_QUOTE,
+        ];
+        return (this.matchStack(this.TokenStack, case1) || this.matchStack(this.TokenStack, case2))
+            && this.matchStack(this.MirrorTokenStack, case3);
+    }
+
+
+    // check if JSON stream stopped in an object property's value start, like `{"field": "`
+    streamStoppedInAnObjectStringValueStart() {
+        // `:`, `"` in stack
+        const case1 = [
+            TOKEN_COLON,
+            TOKEN_QUOTE,
+        ];
+        // `n`, `u`, `l`, `l`, `}` in mirror stack
+        const case2 = [
+            TOKEN_RIGHT_BRACE,
+            TOKEN_ALPHABET_LOWERCASE_L,
+            TOKEN_ALPHABET_LOWERCASE_L,
+            TOKEN_ALPHABET_LOWERCASE_U,
+            TOKEN_ALPHABET_LOWERCASE_N,
+        ];
+        return matchStack(this.tokenStack, case1) && matchStack(this.mirrorTokenStack, case2);
+    }
+
+    // check if JSON stream stopped in an object property's value finish, like `{"field": "value"`
+    streamStoppedInAnObjectValueEnd() {
+        // `"`, `}` left
+        const tokens = [
+            TOKEN_RIGHT_BRACE,
+            TOKEN_QUOTE,
+        ];
+        return matchStack(this.mirrorTokenStack, tokens);
+    }
+
+    // check if JSON stream stopped in an object property's value start by array, like `{"field":[`
+    streamStoppedInAnObjectArrayValueStart() {
+        // `:`, `[` in stack
+        const case1 = [
+            TOKEN_COLON,
+            TOKEN_LEFT_BRACKET,
+        ];
+        // `n`, `u`, `l`, `l`, `}` in mirror stack
+        const case2 = [
+            TOKEN_RIGHT_BRACE,
+            TOKEN_ALPHABET_LOWERCASE_L,
+            TOKEN_ALPHABET_LOWERCASE_L,
+            TOKEN_ALPHABET_LOWERCASE_U,
+            TOKEN_ALPHABET_LOWERCASE_N,
+        ];
+        return matchStack(this.tokenStack, case1) && matchStack(this.mirrorTokenStack, case2);
+    }
+
+    // check if JSON stream stopped in an object property's value start by object, like `{"field":{`
+    streamStoppedInAnObjectObjectValueStart() {
+        // `:`, `{` in stack
+        const case1 = [
+            TOKEN_COLON,
+            TOKEN_LEFT_BRACE,
+        ];
+        // `n`, `u`, `l`, `l`, `}` in mirror stack
+        const case2 = [
+            TOKEN_RIGHT_BRACE,
+            TOKEN_ALPHABET_LOWERCASE_L,
+            TOKEN_ALPHABET_LOWERCASE_L,
+            TOKEN_ALPHABET_LOWERCASE_U,
+            TOKEN_ALPHABET_LOWERCASE_N,
+        ];
+        return matchStack(this.tokenStack, case1) && matchStack(this.mirrorTokenStack, case2);
+    }
+
+
+    // check if JSON stream stopped in an object property's negative number value start, like `:-`
+    streamStoppedInAnObjectNegativeNumberValueStart() {
+        // `:`, `-` in stack
+        const case1 = [
+            TOKEN_COLON,
+            TOKEN_NEGATIVE,
+        ];
+        return matchStack(this.TokenStack, case1);
+    }
+
+    // check if JSON stream stopped in an object property's negative number value start, like `-`
+    streamStoppedInANegativeNumberValueStart() {
+        // `-` in stack
+        const case1 = [
+            TOKEN_NEGATIVE,
+        ];
+        // `0` in mirror stack
+        const case2 = [
+            TOKEN_NUMBER_0,
+        ];
+        return matchDown(this.TokenStack, case1) && matchStack(this.MirrorTokenStack, case2);
+    }
+
+    // check if JSON stream stopped in an array
+    streamStoppedInAnArray() {
+        return this.getTopTokenOnMirrorStack() === TOKEN_RIGHT_BRACKET;
+    }
+
+    // check if JSON stream stopped in an array's string value end, like `["value"]`
+    streamStoppedInAnArrayStringValueEnd() {
+        // `"`, `"` in stack
+        const case1 = [
+            TOKEN_QUOTE,
+            TOKEN_QUOTE,
+        ];
+        // `"`, `]` in mirror stack
+        const case2 = [
+            TOKEN_RIGHT_BRACKET,
+            TOKEN_QUOTE,
+        ];
+        return matchStack(this.TokenStack, case1) && matchStack(this.MirrorTokenStack, case2);
+    }
+
+    // check if JSON stream stopped in an object property's value start by array, like `{"field":{`
+    streamStoppedInAnObjectNullValuePlaceholderStart() {
+        // `n`, `u`, `l`, `l`, `}` in mirror stack
+        const case1 = [
+            TOKEN_RIGHT_BRACE,
+            TOKEN_ALPHABET_LOWERCASE_L,
+            TOKEN_ALPHABET_LOWERCASE_L,
+            TOKEN_ALPHABET_LOWERCASE_U,
+            TOKEN_ALPHABET_LOWERCASE_N,
+        ];
+        return matchStack(this.MirrorTokenStack, case1);
+    }
+
+    // check if JSON stream stopped in a string, like `""`
+    streamStoppedInAString() {
+        return this.getTopTokenOnStack() === TOKEN_QUOTE && this.getTopTokenOnMirrorStack() === TOKEN_QUOTE;
+    }
+
+    // check if JSON stream stopped in a string's unicode escape, like `\u????`
+    streamStoppedInAnStringUnicodeEscape() {
+        // `\`, `u` in stack
+        const case1 = [
+            TOKEN_ESCAPE_CHARACTER,
+            TOKEN_ALPHABET_LOWERCASE_U,
+        ];
+        // `"` in mirror stack
+        const case2 = [
+            TOKEN_QUOTE,
+        ];
+        return this.matchStack(this.TokenStack, case1) && this.matchStack(this.MirrorTokenStack, case2);
+    }
+
+    // check if JSON stream stopped in a number, like `[0-9]`
+    streamStoppedInANumber() {
+        return this.getTopTokenOnStack() === TOKEN_NUMBER;
+    }
+
+    // check if JSON stream stopped in a number first decimal place, like `.?`
+    streamStoppedInANumberDecimalPart() {
+        return this.getTopTokenOnStack() === TOKEN_DOT;
+    }
+
+    // check if JSON stream stopped in a number other decimal places (except first place), like `.[0-9]?`
+    streamStoppedInANumberDecimalPartMiddle() {
+        // `.`, TOKEN_NUMBER in stack
+        const case1 = [
+            TOKEN_DOT,
+            TOKEN_NUMBER,
+        ];
+        return this.matchStack(this.TokenStack, case1);
+    }
+
+    // check if JSON stream stopped in escape character, like `\`
+    streamStoppedWithLeadingEscapeCharacter() {
+        return this.getTopTokenOnStack() === TOKEN_ESCAPE_CHARACTER;
+    }
+
+
 
     // lexer match JSON token method, convert JSON segment to JSON token
     matchToken() {
