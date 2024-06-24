@@ -1,0 +1,31 @@
+{
+  "name": "streaming-json",
+  "version": "1.0.0",
+  "description": "A streamlined, user-friendly JSON streaming preprocessor, crafted in JavaScript.",
+  "main": "lexer.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karminski/streaming-json-js.git"
+  },
+  "keywords": [
+    "streaming",
+    "JSON",
+    "stream",
+    "LLM"
+  ],
+  "author": "karminski <code.karminski@outlook.com> (https://github.com/karminski)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/karminski/streaming-json-js/issues"
+  },
+  "homepage": "https://github.com/karminski/streaming-json-js#readme",
+  "dependencies": {
+    "jest": "^29.7.0"
+  }
+}

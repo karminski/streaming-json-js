@@ -1,0 +1,17 @@
+.vscode
+node_modules
+build
+bazel-bin
+bazel-genfiles
+bazel-grpc-web
+bazel-out
+bazel-testlogs
+*.o
+protoc-gen-*
+.DS_Store
+target
+.project
+.classpath
+.settings
+zig-out
+zig-cache
