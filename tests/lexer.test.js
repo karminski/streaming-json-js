@@ -1,5 +1,5 @@
 // Lexer.test.js
-const Lexer = require('./Lexer');
+const Lexer = require('../src/');
 
 describe('Test complete JSON base', () => {
     test.each([

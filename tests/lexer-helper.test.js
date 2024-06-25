@@ -1,3 +1,5 @@
+require('../src/')
+
 // test match stack method.
 describe('matchStack tests', () => {
     test('matchStack0 - should match', () => {
