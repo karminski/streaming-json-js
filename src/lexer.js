@@ -396,7 +396,7 @@ class Lexer {
         const case2 = [
             TOKEN_NUMBER_0,
         ];
-        return matchDown(this.TokenStack, case1) && matchStack(this.MirrorTokenStack, case2);
+        return matchStack(this.TokenStack, case1) && matchStack(this.MirrorTokenStack, case2);
     }
 
     // check if JSON stream stopped in an array
@@ -622,7 +622,7 @@ class Lexer {
     // this method will traversal all token and generate mirror token for complete full JSON
     appendJSONString(str) {
         this.JSONSegment = str;
-        while (true) {
+        for(;;) {
             let [token, tokenSymbol] = this.matchToken();
 
             switch (token) {
@@ -797,126 +797,54 @@ class Lexer {
                     } else {
                         throw new Error("invalid quote token in json stream");
                     }
-                case TOKEN_QUOTE:
-                    // check if escape quote `\"`
-                    if (this.streamStoppedWithLeadingEscapeCharacter()) {
-                        // push padding escape character `\` into JSON content
-                        this.appendPaddingContentToJSONContent();
-                        this.cleanPaddingContent();
-
-                        // write current token symbol to JSON content
+                    break;
+                case TOKEN_COLON:
+                    if (this.streamStoppedInAString()) {
                         this.JSONContent.push(tokenSymbol);
-
-                        // pop `\` from stack
-                        this.popTokenStack();
                         continue;
                     }
 
-                    // check if json stream stopped with padding content
                     if (this.havePaddingContent()) {
                         this.appendPaddingContentToJSONContent();
                         this.cleanPaddingContent();
                     }
 
-                    // write current token symbol to JSON content
                     this.JSONContent.push(tokenSymbol);
                     this.pushTokenStack(token);
-                    if (this.streamStoppedInAnArray()) {
-                        // push `"` into mirror stack
-                        this.pushMirrorTokenStack(TOKEN_QUOTE);
+                    this.popMirrorTokenStack();
+                    break;
 
-                    } else if (this.streamStoppedInAnArrayStringValueEnd()) {
-                        // pop `"` from mirror stack
-                        this.popMirrorTokenStack();
-
-                    } else if (this.streamStoppedInAnObjectKeyStart()) {
-                        // push `"`, `:`, `n`, `u`, `l`, `l` into mirror stack
-                        this.pushMirrorTokenStack(TOKEN_ALPHABET_LOWERCASE_L);
-                        this.pushMirrorTokenStack(TOKEN_ALPHABET_LOWERCASE_L);
-                        this.pushMirrorTokenStack(TOKEN_ALPHABET_LOWERCASE_U);
-                        this.pushMirrorTokenStack(TOKEN_ALPHABET_LOWERCASE_N);
-                        this.pushMirrorTokenStack(TOKEN_COLON);
-                        this.pushMirrorTokenStack(TOKEN_QUOTE);
-
-                    } else if (this.streamStoppedInAnObjectKeyEnd()) {
-                        // pop `"` from mirror stack
-                        this.popMirrorTokenStack();
-
-                    } else if (this.streamStoppedInAnObjectStringValueStart()) {
-                        // pop `n`, `u`, `l`, `l` from mirror stack
-                        this.popMirrorTokenStack();
-                        this.popMirrorTokenStack();
-                        this.popMirrorTokenStack();
-                        this.popMirrorTokenStack();
-                        // push `"` into mirror stack
-                        this.pushMirrorTokenStack(TOKEN_QUOTE);
-
-                    } else if (this.streamStoppedInAnObjectValueEnd()) {
-                        // pop `"` from mirror stack
-                        this.popMirrorTokenStack();
-                    } else {
-                        throw new Error("invalid quote token in json stream");
-                    }
-                case TOKEN_QUOTE:
-                    // check if escape quote `\"`
-                    if (this.streamStoppedWithLeadingEscapeCharacter()) {
-                        // push padding escape character `\` into JSON content
-                        this.appendPaddingContentToJSONContent();
-                        this.cleanPaddingContent();
-
-                        // write current token symbol to JSON content
-                        this.JSONContent.push(tokenSymbol);
-    
-                        // pop `\` from stack
-                        this.popTokenStack();
+                case TOKEN_ALPHABET_LOWERCASE_A:
+                    if (this.streamStoppedInAnStringUnicodeEscape()) {
+                        this.pushByteIntoPaddingContent(tokenSymbol);
+                        if (this.PaddingContent.length === 6) {
+                            this.appendPaddingContentToJSONContent();
+                            this.cleanPaddingContent();
+                            this.popTokenStack();
+                            this.popTokenStack();
+                        }
                         continue;
                     }
-    
-                    // check if json stream stopped with padding content
-                    if (this.havePaddingContent()) {
-                        this.appendPaddingContentToJSONContent();
-                        this.cleanPaddingContent();
-                    }
-    
-                    // write current token symbol to JSON content
-                    this.JSONContent.push(tokenSymbol);
-                    this.pushTokenStack(token);
-                    if (this.streamStoppedInAnArray()) {
-                        // push `"` into mirror stack
-                        this.pushMirrorTokenStack(TOKEN_QUOTE);
 
-                    } else if (this.streamStoppedInAnArrayStringValueEnd()) {
-                        // pop `"` from mirror stack
-                        this.popMirrorTokenStack();
-    
-                    } else if (this.streamStoppedInAnObjectKeyStart()) {
-                        // push `"`, `:`, `n`, `u`, `l`, `l` into mirror stack
-                        this.pushMirrorTokenStack(TOKEN_ALPHABET_LOWERCASE_L);
-                        this.pushMirrorTokenStack(TOKEN_ALPHABET_LOWERCASE_L);
-                        this.pushMirrorTokenStack(TOKEN_ALPHABET_LOWERCASE_U);
-                        this.pushMirrorTokenStack(TOKEN_ALPHABET_LOWERCASE_N);
-                        this.pushMirrorTokenStack(TOKEN_COLON);
-                        this.pushMirrorTokenStack(TOKEN_QUOTE);
-    
-                    } else if (this.streamStoppedInAnObjectKeyEnd()) {
-                        // pop `"` from mirror stack
-                        this.popMirrorTokenStack();
-    
-                    } else if (this.streamStoppedInAnObjectStringValueStart()) {
-                        // pop `n`, `u`, `l`, `l` from mirror stack
-                        this.popMirrorTokenStack();
-                        this.popMirrorTokenStack();
-                        this.popMirrorTokenStack();
-                        this.popMirrorTokenStack();
-                        // push `"` into mirror stack
-                        this.pushMirrorTokenStack(TOKEN_QUOTE);
-    
-                    } else if (this.streamStoppedInAnObjectValueEnd()) {
-                        // pop `"` from mirror stack
-                        this.popMirrorTokenStack();
-                    } else {
-                        throw new Error("invalid quote token in json stream");
+                    this.JSONContent.push(tokenSymbol);
+
+                    if (this.streamStoppedInAString()) {
+                        continue;
                     }
+
+                    this.itIsPartOfTokenFalse = () => {
+                        var left = [TOKEN_ALPHABET_LOWERCASE_F];
+                        var right = [TOKEN_ALPHABET_LOWERCASE_E, TOKEN_ALPHABET_LOWERCASE_S, TOKEN_ALPHABET_LOWERCASE_L, TOKEN_ALPHABET_LOWERCASE_A];
+                        return matchStack(this.TokenStack, left) && matchStack(this.MirrorTokenStack, right);
+                    }
+
+                    if (!this.itIsPartOfTokenFalse()) {
+                        continue;
+                    }
+
+                    this.pushTokenStack(token);
+                    this.popMirrorTokenStack();
+                    break;
                 case TOKEN_ALPHABET_LOWERCASE_B:
                     // as hex in unicode
                     if (this.streamStoppedInAnStringUnicodeEscape()) {
@@ -1058,72 +986,6 @@ class Lexer {
                         this.pushMirrorTokenStack(TOKEN_ALPHABET_LOWERCASE_A);
                     }
                     break;
-                case TOKEN_ALPHABET_LOWERCASE_F:
-                    // as hex in unicode
-                    if (this.streamStoppedInAnStringUnicodeEscape()) {
-                        this.pushByteIntoPaddingContent(tokenSymbol);
-                        // check if unicode escape is full length
-                        if (this.PaddingContent.length === 6) {
-                            this.appendPaddingContentToJSONContent();
-                            this.cleanPaddingContent();
-                            // pop `\`, `u` from stack
-                            this.popTokenStack();
-                            this.popTokenStack();
-                        }
-                        continue;
-                    }
-    
-                    // \f escape `\`, `f`
-                    if (this.streamStoppedWithLeadingEscapeCharacter()) {
-                        // push padding escape character `\` into JSON content
-                        this.appendPaddingContentToJSONContent();
-                        this.cleanPaddingContent();
-    
-                        // write current token symbol to JSON content
-                        this.JSONContent.push(tokenSymbol);
-                            
-                        // pop `\` from stack
-                        this.popTokenStack();
-                        continue;
-                    }
-    
-                    // check if json stream stopped with padding content, like case `[true , f`
-                    if (this.havePaddingContent()) {
-                        this.appendPaddingContentToJSONContent();
-                        this.cleanPaddingContent();
-                    }
-    
-                    // write current token symbol to JSON content
-                    this.JSONContent.push(tokenSymbol);
-    
-                    // in a string, just skip token
-                    if (this.streamStoppedInAString()) {
-                        continue;
-                    }
-    
-                    // push `f` into stack
-                    this.pushTokenStack(token);
-                    if (this.streamStoppedInAnArray()) {
-                        // in array
-                        // push `a`, `l`, `s`, `e`
-                        this.pushMirrorTokenStack(TOKEN_ALPHABET_LOWERCASE_E);
-                        this.pushMirrorTokenStack(TOKEN_ALPHABET_LOWERCASE_S);
-                        this.pushMirrorTokenStack(TOKEN_ALPHABET_LOWERCASE_L);
-                        this.pushMirrorTokenStack(TOKEN_ALPHABET_LOWERCASE_A);
-                    } else {
-                        // in object
-                        // pop `n`, `u`, `l`, `l`
-                        this.popMirrorTokenStack();
-                        this.popMirrorTokenStack();
-                        this.popMirrorTokenStack();
-                        this.popMirrorTokenStack();
-                        // push `a`, `l`, `s`, `e`
-                        this.pushMirrorTokenStack(TOKEN_ALPHABET_LOWERCASE_E);
-                        this.pushMirrorTokenStack(TOKEN_ALPHABET_LOWERCASE_S);
-                        this.pushMirrorTokenStack(TOKEN_ALPHABET_LOWERCASE_L);
-                        this.pushMirrorTokenStack(TOKEN_ALPHABET_LOWERCASE_A);
-                    }
-                    break;
                 case TOKEN_ALPHABET_LOWERCASE_L:
                     // write current token symbol to JSON content
                     this.JSONContent += tokenSymbol;
@@ -1134,25 +996,25 @@ class Lexer {
                     }
     
                     // helper functions to check stack states
-                    const itIsPartOfTokenFalse = () => {
+                    this.itIsPartOfTokenFalse1 = () => {
                         const left = [TOKEN_ALPHABET_LOWERCASE_F, TOKEN_ALPHABET_LOWERCASE_A];
                         const right = [TOKEN_ALPHABET_LOWERCASE_E, TOKEN_ALPHABET_LOWERCASE_S, TOKEN_ALPHABET_LOWERCASE_L];
                         return matchStack(this.TokenStack, left) && matchStack(this.MirrorTokenStack, right);
                     };
     
-                    const itIsPartOfTokenNull1 = () => {
+                    this.itIsPartOfTokenNull1 = () => {
                         const left = [TOKEN_ALPHABET_LOWERCASE_N, TOKEN_ALPHABET_LOWERCASE_U];
                         const right = [TOKEN_ALPHABET_LOWERCASE_L, TOKEN_ALPHABET_LOWERCASE_L];
                         return matchStack(this.TokenStack, left) && matchStack(this.MirrorTokenStack, right);
                     };
     
-                    const itIsPartOfTokenNull2 = () => {
+                    this.itIsPartOfTokenNull2 = () => {
                         const left = [TOKEN_ALPHABET_LOWERCASE_N, TOKEN_ALPHABET_LOWERCASE_U, TOKEN_ALPHABET_LOWERCASE_L];
                         const right = [TOKEN_ALPHABET_LOWERCASE_L];
                         return matchStack(this.TokenStack, left) && matchStack(this.MirrorTokenStack, right);
                     };
     
-                    if (!itIsPartOfTokenFalse() && !itAllIsPartOfTokenNull1() && !itIsPartOfTokenNull2()) {
+                    if (!this.itIsPartOfTokenFalse1() && !this.itIsPartOfTokenNull1() && !this.itIsPartOfTokenNull2()) {
                         continue;
                     }
                         
@@ -1224,13 +1086,13 @@ class Lexer {
                     }
               
                     // check if `t` in token stack and `r`, `u`, `e` in mirror stack
-                    const itIsPartOfTokenTrue = () => {
+                    this.itIsPartOfTokenTrue = () => {
                       const left = [TOKEN_ALPHABET_LOWERCASE_T];
                       const right = [TOKEN_ALPHABET_LOWERCASE_E, TOKEN_ALPHABET_LOWERCASE_U, TOKEN_ALPHABET_LOWERCASE_R];
                       return matchStack(this.TokenStack, left) && matchStack(this.MirrorTokenStack, right);
                     };
               
-                    if (!itIsPartOfTokenTrue()) {
+                    if (!this.itIsPartOfTokenTrue()) {
                       continue;
                     }
               
@@ -1247,7 +1109,7 @@ class Lexer {
                     }
     
                     // check if `f`, `a`, `l` in token stack and `s`, `e in mirror stack
-                    const itIsPartOfTokenFalse2 = () => {
+                    this.itIsPartOfTokenFalse2 = () => {
                         let left = [
                             TOKEN_ALPHABET_LOWERCASE_F,
                             TOKEN_ALPHABET_LOWERCASE_A,
@@ -1259,7 +1121,7 @@ class Lexer {
                         ];
                         return matchStack(this.TokenStack, left) && matchStack(this.MirrorTokenStack, right);
                     }
-                    if (!itIsPartOfTokenFalse2()) {
+                    if (!this.itIsPartOfTokenFalse2()) {
                         continue;
                     }
                     this.pushTokenStack(token);
@@ -1332,19 +1194,19 @@ class Lexer {
                     }
                         
                     // check if `t`, `r` in token stack and, `u`, `e` in mirror stack
-                    const itIsPartOfTokenTrue2 = () => {
+                    this.itIsPartOfTokenTrue2 = () => {
                         const left = [TOKEN_ALPHABET_LOWERCASE_T, TOKEN_ALPHABET_LOWERCASE_R];
                         const right = [TOKEN_ALPHABET_LOWERCASE_E, TOKEN_ALPHABET_LOWERCASE_U];
                         return matchStack(this.TokenStack, left) && matchStack(this.MirrorTokenStack, right);
                     };
                         
                     // check if `n` in token stack and `u`, `l`, `l` in mirror stack
-                    const itIsPartOfTokenNull = () => {
+                    this.itIsPartOfTokenNull = () => {
                         const left = [TOKEN_ALPHABET_LOWERCASE_N];
                         const right = [TOKEN_ALPHABET_LOWERCASE_L, TOKEN_ALPHABET_LOWERCASE_L, TOKEN_ALPHABET_LOWERCASE_U];
                         return matchStack(this.TokenStack, left) && matchStack(this.MirrorTokenStack, right);
                     };
-                    if (!itIsPartOfTokenTrue2() && !itIsPartOfTokenNull()) {
+                    if (!this.itIsPartOfTokenTrue2() && !this.itIsPartOfTokenNull()) {
                         continue;
                     }
                     this.pushTokenStack(token);
