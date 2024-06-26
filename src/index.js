@@ -93,49 +93,49 @@ const TOKEN_NUMBER_9_SYMBOL = '9'
 
 // token symbol const
 const TOKEN_SYMBOL_MAP = {
-  TOKEN_EOF: TOKEN_EOF_SYMBOL,
-  TOKEN_LEFT_BRACKET: TOKEN_LEFT_BRACKET_SYMBOL,
-  TOKEN_RIGHT_BRACKET: TOKEN_RIGHT_BRACKET_SYMBOL,
-  TOKEN_LEFT_BRACE: TOKEN_LEFT_BRACE_SYMBOL,
-  TOKEN_RIGHT_BRACE: TOKEN_RIGHT_BRACE_SYMBOL,
-  TOKEN_COLON: TOKEN_COLON_SYMBOL,
-  TOKEN_DOT: TOKEN_DOT_SYMBOL,
-  TOKEN_COMMA: TOKEN_COMMA_SYMBOL,
-  TOKEN_QUOTE: TOKEN_QUOTE_SYMBOL,
-  TOKEN_ESCAPE_CHARACTER: TOKEN_ESCAPE_CHARACTER_SYMBOL,
-  TOKEN_SLASH: TOKEN_SLASH_SYMBOL,
-  TOKEN_NEGATIVE: TOKEN_NEGATIVE_SYMBOL,
-  TOKEN_NULL: TOKEN_NULL_SYMBOL,
-  TOKEN_TRUE: TOKEN_TRUE_SYMBOL,
-  TOKEN_FALSE: TOKEN_FALSE_SYMBOL,
-  TOKEN_ALPHABET_LOWERCASE_A: TOKEN_ALPHABET_LOWERCASE_A_SYMBOL,
-  TOKEN_ALPHABET_LOWERCASE_B: TOKEN_ALPHABET_LOWERCASE_B_SYMBOL,
-  TOKEN_ALPHABET_LOWERCASE_C: TOKEN_ALPHABET_LOWERCASE_C_SYMBOL,
-  TOKEN_ALPHABET_LOWERCASE_D: TOKEN_ALPHABET_LOWERCASE_D_SYMBOL,
-  TOKEN_ALPHABET_LOWERCASE_E: TOKEN_ALPHABET_LOWERCASE_E_SYMBOL,
-  TOKEN_ALPHABET_LOWERCASE_F: TOKEN_ALPHABET_LOWERCASE_F_SYMBOL,
-  TOKEN_ALPHABET_LOWERCASE_L: TOKEN_ALPHABET_LOWERCASE_L_SYMBOL,
-  TOKEN_ALPHABET_LOWERCASE_N: TOKEN_ALPHABET_LOWERCASE_N_SYMBOL,
-  TOKEN_ALPHABET_LOWERCASE_R: TOKEN_ALPHABET_LOWERCASE_R_SYMBOL,
-  TOKEN_ALPHABET_LOWERCASE_S: TOKEN_ALPHABET_LOWERCASE_S_SYMBOL,
-  TOKEN_ALPHABET_LOWERCASE_T: TOKEN_ALPHABET_LOWERCASE_T_SYMBOL,
-  TOKEN_ALPHABET_LOWERCASE_U: TOKEN_ALPHABET_LOWERCASE_U_SYMBOL,
-  TOKEN_ALPHABET_UPPERCASE_A: TOKEN_ALPHABET_UPPERCASE_A_SYMBOL,
-  TOKEN_ALPHABET_UPPERCASE_B: TOKEN_ALPHABET_UPPERCASE_B_SYMBOL,
-  TOKEN_ALPHABET_UPPERCASE_C: TOKEN_ALPHABET_UPPERCASE_C_SYMBOL,
-  TOKEN_ALPHABET_UPPERCASE_D: TOKEN_ALPHABET_UPPERCASE_D_SYMBOL,
-  TOKEN_ALPHABET_UPPERCASE_E: TOKEN_ALPHABET_UPPERCASE_E_SYMBOL,
-  TOKEN_ALPHABET_UPPERCASE_F: TOKEN_ALPHABET_UPPERCASE_F_SYMBOL,
-  TOKEN_NUMBER_0: TOKEN_NUMBER_0_SYMBOL,
-  TOKEN_NUMBER_1: TOKEN_NUMBER_1_SYMBOL,
-  TOKEN_NUMBER_2: TOKEN_NUMBER_2_SYMBOL,
-  TOKEN_NUMBER_3: TOKEN_NUMBER_3_SYMBOL,
-  TOKEN_NUMBER_4: TOKEN_NUMBER_4_SYMBOL,
-  TOKEN_NUMBER_5: TOKEN_NUMBER_5_SYMBOL,
-  TOKEN_NUMBER_6: TOKEN_NUMBER_6_SYMBOL,
-  TOKEN_NUMBER_7: TOKEN_NUMBER_7_SYMBOL,
-  TOKEN_NUMBER_8: TOKEN_NUMBER_8_SYMBOL,
-  TOKEN_NUMBER_9: TOKEN_NUMBER_9_SYMBOL,
+  [TOKEN_EOF]: TOKEN_EOF_SYMBOL,
+  [TOKEN_LEFT_BRACKET]: TOKEN_LEFT_BRACKET_SYMBOL,
+  [TOKEN_RIGHT_BRACKET]: TOKEN_RIGHT_BRACKET_SYMBOL,
+  [TOKEN_LEFT_BRACE]: TOKEN_LEFT_BRACE_SYMBOL,
+  [TOKEN_RIGHT_BRACE]: TOKEN_RIGHT_BRACE_SYMBOL,
+  [TOKEN_COLON]: TOKEN_COLON_SYMBOL,
+  [TOKEN_DOT]: TOKEN_DOT_SYMBOL,
+  [TOKEN_COMMA]: TOKEN_COMMA_SYMBOL,
+  [TOKEN_QUOTE]: TOKEN_QUOTE_SYMBOL,
+  [TOKEN_ESCAPE_CHARACTER]: TOKEN_ESCAPE_CHARACTER_SYMBOL,
+  [TOKEN_SLASH]: TOKEN_SLASH_SYMBOL,
+  [TOKEN_NEGATIVE]: TOKEN_NEGATIVE_SYMBOL,
+  [TOKEN_NULL]: TOKEN_NULL_SYMBOL,
+  [TOKEN_TRUE]: TOKEN_TRUE_SYMBOL,
+  [TOKEN_FALSE]: TOKEN_FALSE_SYMBOL,
+  [TOKEN_ALPHABET_LOWERCASE_A]: TOKEN_ALPHABET_LOWERCASE_A_SYMBOL,
+  [TOKEN_ALPHABET_LOWERCASE_B]: TOKEN_ALPHABET_LOWERCASE_B_SYMBOL,
+  [TOKEN_ALPHABET_LOWERCASE_C]: TOKEN_ALPHABET_LOWERCASE_C_SYMBOL,
+  [TOKEN_ALPHABET_LOWERCASE_D]: TOKEN_ALPHABET_LOWERCASE_D_SYMBOL,
+  [TOKEN_ALPHABET_LOWERCASE_E]: TOKEN_ALPHABET_LOWERCASE_E_SYMBOL,
+  [TOKEN_ALPHABET_LOWERCASE_F]: TOKEN_ALPHABET_LOWERCASE_F_SYMBOL,
+  [TOKEN_ALPHABET_LOWERCASE_L]: TOKEN_ALPHABET_LOWERCASE_L_SYMBOL,
+  [TOKEN_ALPHABET_LOWERCASE_N]: TOKEN_ALPHABET_LOWERCASE_N_SYMBOL,
+  [TOKEN_ALPHABET_LOWERCASE_R]: TOKEN_ALPHABET_LOWERCASE_R_SYMBOL,
+  [TOKEN_ALPHABET_LOWERCASE_S]: TOKEN_ALPHABET_LOWERCASE_S_SYMBOL,
+  [TOKEN_ALPHABET_LOWERCASE_T]: TOKEN_ALPHABET_LOWERCASE_T_SYMBOL,
+  [TOKEN_ALPHABET_LOWERCASE_U]: TOKEN_ALPHABET_LOWERCASE_U_SYMBOL,
+  [TOKEN_ALPHABET_UPPERCASE_A]: TOKEN_ALPHABET_UPPERCASE_A_SYMBOL,
+  [TOKEN_ALPHABET_UPPERCASE_B]: TOKEN_ALPHABET_UPPERCASE_B_SYMBOL,
+  [TOKEN_ALPHABET_UPPERCASE_C]: TOKEN_ALPHABET_UPPERCASE_C_SYMBOL,
+  [TOKEN_ALPHABET_UPPERCASE_D]: TOKEN_ALPHABET_UPPERCASE_D_SYMBOL,
+  [TOKEN_ALPHABET_UPPERCASE_E]: TOKEN_ALPHABET_UPPERCASE_E_SYMBOL,
+  [TOKEN_ALPHABET_UPPERCASE_F]: TOKEN_ALPHABET_UPPERCASE_F_SYMBOL,
+  [TOKEN_NUMBER_0]: TOKEN_NUMBER_0_SYMBOL,
+  [TOKEN_NUMBER_1]: TOKEN_NUMBER_1_SYMBOL,
+  [TOKEN_NUMBER_2]: TOKEN_NUMBER_2_SYMBOL,
+  [TOKEN_NUMBER_3]: TOKEN_NUMBER_3_SYMBOL,
+  [TOKEN_NUMBER_4]: TOKEN_NUMBER_4_SYMBOL,
+  [TOKEN_NUMBER_5]: TOKEN_NUMBER_5_SYMBOL,
+  [TOKEN_NUMBER_6]: TOKEN_NUMBER_6_SYMBOL,
+  [TOKEN_NUMBER_7]: TOKEN_NUMBER_7_SYMBOL,
+  [TOKEN_NUMBER_8]: TOKEN_NUMBER_8_SYMBOL,
+  [TOKEN_NUMBER_9]: TOKEN_NUMBER_9_SYMBOL,
 };
 
 // helper method check if token is in ignore token
@@ -152,10 +152,18 @@ function isIgnoreToken(c) {
   return false;
 }
 
+// get array real length
+function arrayLength(a) {
+  if (!a) {
+    return 0
+  }
+  return Object.keys(a).filter(function (el) { return !(+el % 1) && +el >= 0 && +el < Math.pow(2, 32); }).length
+}
+
 // helper method match stack with tokens
 function matchStack(stack, tokens) {
-  let pointer = stack.length;
-  let tokensLeft = tokens.length;
+  let pointer = arrayLength(stack);
+  let tokensLeft = arrayLength(tokens);
 
   for (; ;) {
     tokensLeft--;
@@ -231,7 +239,11 @@ class Lexer {
 
   // Convert mirror stack token into string
   dumpMirrorTokenStackToString() {
-    return this.MirrorTokenStack.reduceRight((acc, token) => acc + TOKEN_SYMBOL_MAP[token], "");
+    var ret = ""
+    this.MirrorTokenStack.slice().reverse().forEach(function (item) {
+      ret += TOKEN_SYMBOL_MAP[item];
+    });
+    return ret
   }
 
   // Skip JSON segment by length n
@@ -245,8 +257,8 @@ class Lexer {
   }
 
   // Push byte into JSON content by given
-  pushByteIntoPaddingContent(b) {
-    this.PaddingContent += String.fromCharCode(b);
+  pushByteIntoPaddingContent(s) {
+    this.PaddingContent += s;
   }
 
   // Append padding content into JSON content
@@ -279,8 +291,8 @@ class Lexer {
     const case3 = [
       TOKEN_RIGHT_BRACE,
     ];
-    return (this.matchStack(this.TokenStack, case1) || this.matchStack(this.TokenStack, case2))
-      && this.matchStack(this.MirrorTokenStack, case3);
+    return (matchStack(this.TokenStack, case1) || matchStack(this.TokenStack, case2))
+      && matchStack(this.MirrorTokenStack, case3);
   }
 
   // check if JSON stream stopped in an object property's key, like `{"field`
@@ -306,8 +318,8 @@ class Lexer {
       TOKEN_COLON,
       TOKEN_QUOTE,
     ];
-    return (this.matchStack(this.TokenStack, case1) || this.matchStack(this.TokenStack, case2))
-      && this.matchStack(this.MirrorTokenStack, case3);
+    return (matchStack(this.TokenStack, case1) || matchStack(this.TokenStack, case2))
+      && matchStack(this.MirrorTokenStack, case3);
   }
 
 
@@ -326,7 +338,7 @@ class Lexer {
       TOKEN_ALPHABET_LOWERCASE_U,
       TOKEN_ALPHABET_LOWERCASE_N,
     ];
-    return matchStack(this.tokenStack, case1) && matchStack(this.mirrorTokenStack, case2);
+    return matchStack(this.TokenStack, case1) && matchStack(this.MirrorTokenStack, case2);
   }
 
   // check if JSON stream stopped in an object property's value finish, like `{"field": "value"`
@@ -336,7 +348,7 @@ class Lexer {
       TOKEN_RIGHT_BRACE,
       TOKEN_QUOTE,
     ];
-    return matchStack(this.mirrorTokenStack, tokens);
+    return matchStack(this.MirrorTokenStack, tokens);
   }
 
   // check if JSON stream stopped in an object property's value start by array, like `{"field":[`
@@ -354,7 +366,7 @@ class Lexer {
       TOKEN_ALPHABET_LOWERCASE_U,
       TOKEN_ALPHABET_LOWERCASE_N,
     ];
-    return matchStack(this.tokenStack, case1) && matchStack(this.mirrorTokenStack, case2);
+    return matchStack(this.TokenStack, case1) && matchStack(this.MirrorTokenStack, case2);
   }
 
   // check if JSON stream stopped in an object property's value start by object, like `{"field":{`
@@ -372,7 +384,7 @@ class Lexer {
       TOKEN_ALPHABET_LOWERCASE_U,
       TOKEN_ALPHABET_LOWERCASE_N,
     ];
-    return matchStack(this.tokenStack, case1) && matchStack(this.mirrorTokenStack, case2);
+    return matchStack(this.TokenStack, case1) && matchStack(this.MirrorTokenStack, case2);
   }
 
 
@@ -448,7 +460,7 @@ class Lexer {
     const case2 = [
       TOKEN_QUOTE,
     ];
-    return this.matchStack(this.TokenStack, case1) && this.matchStack(this.MirrorTokenStack, case2);
+    return matchStack(this.TokenStack, case1) && matchStack(this.MirrorTokenStack, case2);
   }
 
   // check if JSON stream stopped in a number, like `[0-9]`
@@ -468,7 +480,7 @@ class Lexer {
       TOKEN_DOT,
       TOKEN_NUMBER,
     ];
-    return this.matchStack(this.TokenStack, case1);
+    return matchStack(this.TokenStack, case1);
   }
 
   // check if JSON stream stopped in escape character, like `\`
@@ -484,136 +496,136 @@ class Lexer {
     if (this.JSONSegment.length === 0) {
       return [TOKEN_EOF, 0];
     }
-    let tokenSymbol = this.JSONSegment.charCodeAt(0);
+    let tokenSymbol = this.JSONSegment.substring(0, 1);
 
     // check if ignored token
     if (isIgnoreToken(tokenSymbol)) {
       this.skipJSONSegment(1);
-      return [TOKEN_IGNORED, String.fromCharCode(tokenSymbol)];
+      return [TOKEN_IGNORED, tokenSymbol];
     }
 
     // match token
     switch (tokenSymbol) {
       case TOKEN_LEFT_BRACKET_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_LEFT_BRACKET, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_LEFT_BRACKET, tokenSymbol];
       case TOKEN_RIGHT_BRACKET_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_RIGHT_BRACKET, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_RIGHT_BRACKET, tokenSymbol];
       case TOKEN_LEFT_BRACE_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_LEFT_BRACE, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_LEFT_BRACE, tokenSymbol];
       case TOKEN_RIGHT_BRACE_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_RIGHT_BRACE, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_RIGHT_BRACE, tokenSymbol];
       case TOKEN_COLON_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_COLON, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_COLON, tokenSymbol];
       case TOKEN_DOT_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_DOT, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_DOT, tokenSymbol];
       case TOKEN_COMMA_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_COMMA, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_COMMA, tokenSymbol];
       case TOKEN_QUOTE_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_QUOTE, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_QUOTE, tokenSymbol];
       case TOKEN_ESCAPE_CHARACTER_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_ESCAPE_CHARACTER, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_ESCAPE_CHARACTER, tokenSymbol];
       case TOKEN_SLASH_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_SLASH, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_SLASH, tokenSymbol];
       case TOKEN_NEGATIVE_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_NEGATIVE, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_NEGATIVE, tokenSymbol];
       case TOKEN_ALPHABET_LOWERCASE_A_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_ALPHABET_LOWERCASE_A, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_ALPHABET_LOWERCASE_A, tokenSymbol];
       case TOKEN_ALPHABET_LOWERCASE_B_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_ALPHABET_LOWERCASE_B, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_ALPHABET_LOWERCASE_B, tokenSymbol];
       case TOKEN_ALPHABET_LOWERCASE_C_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_ALPHABET_LOWERCASE_C, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_ALPHABET_LOWERCASE_C, tokenSymbol];
       case TOKEN_ALPHABET_LOWERCASE_D_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_ALPHABET_LOWERCASE_D, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_ALPHABET_LOWERCASE_D, tokenSymbol];
       case TOKEN_ALPHABET_LOWERCASE_E_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_ALPHABET_LOWERCASE_E, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_ALPHABET_LOWERCASE_E, tokenSymbol];
       case TOKEN_ALPHABET_LOWERCASE_F_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_ALPHABET_LOWERCASE_F, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_ALPHABET_LOWERCASE_F, tokenSymbol];
       case TOKEN_ALPHABET_LOWERCASE_L_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_ALPHABET_LOWERCASE_L, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_ALPHABET_LOWERCASE_L, tokenSymbol];
       case TOKEN_ALPHABET_LOWERCASE_N_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_ALPHABET_LOWERCASE_N, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_ALPHABET_LOWERCASE_N, tokenSymbol];
       case TOKEN_ALPHABET_LOWERCASE_R_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_ALPHABET_LOWERCASE_R, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_ALPHABET_LOWERCASE_R, tokenSymbol];
       case TOKEN_ALPHABET_LOWERCASE_S_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_ALPHABET_LOWERCASE_S, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_ALPHABET_LOWERCASE_S, tokenSymbol];
       case TOKEN_ALPHABET_LOWERCASE_T_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_ALPHABET_LOWERCASE_T, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_ALPHABET_LOWERCASE_T, tokenSymbol];
       case TOKEN_ALPHABET_LOWERCASE_U_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_ALPHABET_LOWERCASE_U, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_ALPHABET_LOWERCASE_U, tokenSymbol];
       case TOKEN_ALPHABET_UPPERCASE_A_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_ALPHABET_UPPERCASE_A, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_ALPHABET_UPPERCASE_A, tokenSymbol];
       case TOKEN_ALPHABET_UPPERCASE_B_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_ALPHABET_UPPERCASE_B, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_ALPHABET_UPPERCASE_B, tokenSymbol];
       case TOKEN_ALPHABET_UPPERCASE_C_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_ALPHABET_UPPERCASE_C, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_ALPHABET_UPPERCASE_C, tokenSymbol];
       case TOKEN_ALPHABET_UPPERCASE_D_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_ALPHABET_UPPERCASE_D, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_ALPHABET_UPPERCASE_D, tokenSymbol];
       case TOKEN_ALPHABET_UPPERCASE_E_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_ALPHABET_UPPERCASE_E, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_ALPHABET_UPPERCASE_E, tokenSymbol];
       case TOKEN_ALPHABET_UPPERCASE_F_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_ALPHABET_UPPERCASE_F, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_ALPHABET_UPPERCASE_F, tokenSymbol];
       case TOKEN_NUMBER_0_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_NUMBER_0, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_NUMBER_0, tokenSymbol];
       case TOKEN_NUMBER_1_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_NUMBER_1, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_NUMBER_1, tokenSymbol];
       case TOKEN_NUMBER_2_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_NUMBER_2, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_NUMBER_2, tokenSymbol];
       case TOKEN_NUMBER_3_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_NUMBER_3, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_NUMBER_3, tokenSymbol];
       case TOKEN_NUMBER_4_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_NUMBER_4, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_NUMBER_4, tokenSymbol];
       case TOKEN_NUMBER_5_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_NUMBER_5, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_NUMBER_5, tokenSymbol];
       case TOKEN_NUMBER_6_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_NUMBER_6, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_NUMBER_6, tokenSymbol];
       case TOKEN_NUMBER_7_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_NUMBER_7, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_NUMBER_7, tokenSymbol];
       case TOKEN_NUMBER_8_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_NUMBER_8, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_NUMBER_8, tokenSymbol];
       case TOKEN_NUMBER_9_SYMBOL:
         this.skipJSONSegment(1);
-        return [TOKEN_NUMBER_9, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_NUMBER_9, tokenSymbol];
       default:
         this.skipJSONSegment(1);
-        return [TOKEN_OTHERS, String.fromCharCode(tokenSymbol)];
+        return [TOKEN_OTHERS, tokenSymbol];
     }
   }
 
@@ -631,7 +643,7 @@ class Lexer {
           break;
         case TOKEN_IGNORED:
           if (this.streamStoppedInAString()) {
-            this.JSONContent += String.fromCharCode(tokenSymbol);
+            this.JSONContent += tokenSymbol;
             continue;
           }
           this.pushByteIntoPaddingContent(tokenSymbol);
@@ -645,7 +657,7 @@ class Lexer {
           }
 
           // write current token symbol to JSON content
-          this.JSONContent += String.fromCharCode(tokenSymbol);
+          this.JSONContent += tokenSymbol;
           break;
 
         case TOKEN_LEFT_BRACKET:
@@ -654,7 +666,7 @@ class Lexer {
             this.appendPaddingContentToJSONContent();
             this.cleanPaddingContent();
           }
-          this.JSONContent += String.fromCharCode(tokenSymbol);
+          this.JSONContent += tokenSymbol;
           if (this.streamStoppedInAString()) {
             continue;
           }
@@ -673,7 +685,7 @@ class Lexer {
 
         case TOKEN_RIGHT_BRACKET:
           if (this.streamStoppedInAString()) {
-            this.JSONContent += String.fromCharCode(tokenSymbol);
+            this.JSONContent += tokenSymbol;
             continue;
           }
 
@@ -684,7 +696,7 @@ class Lexer {
           }
 
           // write current token symbol to JSON content
-          this.JSONContent += String.fromCharCode(tokenSymbol);
+          this.JSONContent += tokenSymbol;
 
           // push `]` into stack
           this.pushTokenStack(token);
@@ -700,7 +712,7 @@ class Lexer {
           }
 
           // write current token symbol to JSON content
-          this.JSONContent += String.fromCharCode(tokenSymbol);
+          this.JSONContent += tokenSymbol;
 
           if (this.streamStoppedInAString()) {
             continue;
@@ -721,7 +733,7 @@ class Lexer {
 
         case TOKEN_RIGHT_BRACE:
           if (this.streamStoppedInAString()) {
-            this.JSONContent += String.fromCharCode(tokenSymbol);
+            this.JSONContent += tokenSymbol;
             continue;
           }
 
@@ -730,7 +742,7 @@ class Lexer {
             this.appendPaddingContentToJSONContent();
             this.cleanPaddingContent();
           }
-          this.JSONContent += String.fromCharCode(tokenSymbol);
+          this.JSONContent += tokenSymbol;
 
           // push `}` into stack
           this.pushTokenStack(token);
@@ -745,7 +757,7 @@ class Lexer {
             this.cleanPaddingContent();
 
             // write current token symbol to JSON content
-            this.JSONContent.push(tokenSymbol);
+            this.JSONContent += tokenSymbol;
 
             // pop `\` from stack
             this.popTokenStack();
@@ -759,7 +771,7 @@ class Lexer {
           }
 
           // write current token symbol to JSON content
-          this.JSONContent.push(tokenSymbol);
+          this.JSONContent += tokenSymbol;
           this.pushTokenStack(token);
           if (this.streamStoppedInAnArray()) {
             // push `"` into mirror stack
@@ -800,7 +812,7 @@ class Lexer {
           break;
         case TOKEN_COLON:
           if (this.streamStoppedInAString()) {
-            this.JSONContent.push(tokenSymbol);
+            this.JSONContent += tokenSymbol;
             continue;
           }
 
@@ -809,7 +821,7 @@ class Lexer {
             this.cleanPaddingContent();
           }
 
-          this.JSONContent.push(tokenSymbol);
+          this.JSONContent += tokenSymbol;
           this.pushTokenStack(token);
           this.popMirrorTokenStack();
           break;
@@ -826,7 +838,7 @@ class Lexer {
             continue;
           }
 
-          this.JSONContent.push(tokenSymbol);
+          this.JSONContent += tokenSymbol;
 
           if (this.streamStoppedInAString()) {
             continue;
@@ -942,7 +954,7 @@ class Lexer {
             this.cleanPaddingContent();
 
             // write current token symbol to JSON content
-            this.JSONContent.push(tokenSymbol);
+            this.JSONContent += tokenSymbol;
 
             // pop `\` from stack
             this.popTokenStack();
@@ -956,7 +968,7 @@ class Lexer {
           }
 
           // write current token symbol to JSON content
-          this.JSONContent.push(tokenSymbol);
+          this.JSONContent += tokenSymbol;
 
           // in a string, just skip token
           if (this.streamStoppedInAString()) {
@@ -1029,7 +1041,7 @@ class Lexer {
             this.cleanPaddingContent();
 
             // Write current token symbol to JSON content
-            this.JSONContent.push(tokenSymbol);
+            this.JSONContent += tokenSymbol;
 
             // Pop `\` from stack
             this.popTokenStack();
@@ -1043,7 +1055,7 @@ class Lexer {
           }
 
           // Write current token symbol to JSON content
-          this.JSONContent.push(tokenSymbol);
+          this.JSONContent += tokenSymbol;
 
           // In a string, just skip token
           if (this.streamStoppedInAString()) {
@@ -1070,7 +1082,7 @@ class Lexer {
             this.cleanPaddingContent();
 
             // write current token symbol to JSON content
-            this.JSONContent.push(tokenSymbol);
+            this.JSONContent += tokenSymbol;
 
             // pop `\` from stack
             this.popTokenStack();
@@ -1078,7 +1090,7 @@ class Lexer {
           }
 
           // write current token symbol to JSON content
-          this.JSONContent.push(tokenSymbol);
+          this.JSONContent += tokenSymbol;
 
           // in a string, just skip token
           if (this.streamStoppedInAString()) {
@@ -1101,7 +1113,7 @@ class Lexer {
           break;
         case TOKEN_ALPHABET_LOWERCASE_S:
           // write current token symbol to JSON content
-          this.JSONContent.push(tokenSymbol);
+          this.JSONContent += tokenSymbol;
 
           // in a string, just skip token
           if (this.streamStoppedInAString()) {
@@ -1263,7 +1275,7 @@ class Lexer {
           }
 
           // write current token symbol to JSON content
-          this.JSONContent.push(tokenSymbol);
+          this.JSONContent += tokenSymbol;
 
           // in a string, just skip token
           if (this.streamStoppedInAString()) {
@@ -1331,15 +1343,15 @@ class Lexer {
           } else if (this.streamStoppedInAnObjectNullValuePlaceholderStart()) {
             // pop `n`, `u`, `l`, `l`
             this.popMirrorTokenStack();
-            this.popMirrorTokenMatchStack();
-            this.popMirrorTokenMatchStack();
-            this.popMirrorTokenMatchStack();
+            this.popMirrorTokenStack();
+            this.popMirrorTokenStack();
+            this.popMirrorTokenStack();
           }
           break;
         case TOKEN_COMMA:
           // in a string, just skip token
           if (this.streamStoppedInAString()) {
-            this.JSONContent.push(tokenSymbol);
+            this.JSONContent += tokenSymbol;
             continue;
           }
           // in a object or a array, keep the comma in stack but not write it into JSONContent, until next token arrival
@@ -1348,7 +1360,7 @@ class Lexer {
           break;
         case TOKEN_DOT:
           // write current token symbol to JSON content
-          this.JSONContent.push(tokenSymbol);
+          this.JSONContent += tokenSymbol;
 
           // in a string, just skip token
           if (this.streamStoppedInAString()) {
@@ -1367,7 +1379,7 @@ class Lexer {
             this.cleanPaddingContent();
 
             // write current token symbol to JSON content
-            this.JSONContent.push(tokenSymbol);
+            this.JSONContent += tokenSymbol;
 
             // pop `\` from stack
             this.popTokenStack();
@@ -1419,7 +1431,7 @@ class Lexer {
           this.pushMirrorTokenStack(TOKEN_NUMBER_0); // TOKEN_NUMBER_0 needs to be defined somewhere
           break;
         default:
-          throw new Error(`unexpected token: \`${token}\`, token symbol: \`${String.fromCharCode(tokenSymbol)}\``);
+          throw new Error(`unexpected token: \`${token}\`, token symbol: \`${tokenSymbol}\``);
       }
 
       // check if end
