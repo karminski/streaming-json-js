@@ -609,7 +609,7 @@ class Lexer {
 
   // append JSON string to current JSON stream content
   // this method will traversal all token and generate mirror token for complete full JSON
-  AppendJSONString(str) {
+  AppendString(str) {
     this.JSONSegment = str;
     for (;;) {
       let [token, tokenSymbol] = this.matchToken();

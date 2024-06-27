@@ -473,7 +473,7 @@ describe('Test complete JSON base', () => {
   testCases.forEach(([testCase, expected]) => {
     it(`Completes JSON string from "${testCase}" to "${expected}"`, () => {
       const lexer = new streamingjson.Lexer();
-      lexer.AppendJSONString(testCase);
+      lexer.AppendString(testCase);
       const ret = lexer.CompleteJSON();
       expect(ret).to.equal(expected);
     });
@@ -486,7 +486,7 @@ describe('Test complete JSON nested', () => {
     const streamingJSONContent = '{"string": "这是一个字符串", "integer": 42, "float": 3.14159, "boolean_true": true, "boolean_false": false, "null": null, "object": {"empty_object": {}, "non_empty_object": {"key": "value"}, "nested_object": {"nested_key": {"sub_nested_key": "sub_nested_value"}}}, "array":["string in array", 123, 45.67, true, false, null, {"object_in_array": "object_value"},["nested_array"]]}'
 
     const lexer = new streamingjson.Lexer();
-    lexer.AppendJSONString(streamingJSONContent);
+    lexer.AppendString(streamingJSONContent);
     const ret = lexer.CompleteJSON();
     let parsedJSON;
     assert.doesNotThrow(function () {
@@ -550,7 +550,7 @@ describe('Test complete JSON nested 2', () => {
     }`
 
     const lexer = new streamingjson.Lexer();
-    lexer.AppendJSONString(streamingJSONContent);
+    lexer.AppendString(streamingJSONContent);
     const ret = lexer.CompleteJSON();
     let parsedJSON;
     assert.doesNotThrow(function () {
@@ -588,7 +588,7 @@ describe('Test complete JSON escape and etc', () => {
 }`
 
     const lexer = new streamingjson.Lexer();
-    lexer.AppendJSONString(streamingJSONContent);
+    lexer.AppendString(streamingJSONContent);
     const ret = lexer.CompleteJSON();
     let parsedJSON;
     assert.doesNotThrow(function () {

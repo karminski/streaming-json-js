@@ -36,7 +36,7 @@ arguments = ['{"fu', 'nction', '_name', '"', ':', '"run', '_code', '", ', '"argu
 
 lexer = new streamingjson.Lexer();
 arguments.forEach(jsonFragment => {
-  lexer.AppendJSONString(jsonFragment);
+  lexer.AppendString(jsonFragment);
   console.log(lexer.CompleteJSON());
 });
 
