@@ -47,49 +47,49 @@ const TOKEN_NUMBER_9 = 44; // 9
 const TOKEN_OTHERS = 45; // anything else in json
 
 // token symbol const
-const TOKEN_EOF_SYMBOL = 'EOF'
-const TOKEN_LEFT_BRACKET_SYMBOL = '['
-const TOKEN_RIGHT_BRACKET_SYMBOL = ']'
-const TOKEN_LEFT_BRACE_SYMBOL = '{'
-const TOKEN_RIGHT_BRACE_SYMBOL = '}'
-const TOKEN_COLON_SYMBOL = ':'
-const TOKEN_DOT_SYMBOL = '.'
-const TOKEN_COMMA_SYMBOL = ','
-const TOKEN_QUOTE_SYMBOL = '"'
-const TOKEN_ESCAPE_CHARACTER_SYMBOL = '\\'
-const TOKEN_SLASH_SYMBOL = '/'
-const TOKEN_NEGATIVE_SYMBOL = '-'
-const TOKEN_NULL_SYMBOL = 'null'
-const TOKEN_TRUE_SYMBOL = 'true'
-const TOKEN_FALSE_SYMBOL = 'false'
-const TOKEN_ALPHABET_LOWERCASE_A_SYMBOL = 'a'
-const TOKEN_ALPHABET_LOWERCASE_B_SYMBOL = 'b'
-const TOKEN_ALPHABET_LOWERCASE_C_SYMBOL = 'c'
-const TOKEN_ALPHABET_LOWERCASE_D_SYMBOL = 'd'
-const TOKEN_ALPHABET_LOWERCASE_E_SYMBOL = 'e'
-const TOKEN_ALPHABET_LOWERCASE_F_SYMBOL = 'f'
-const TOKEN_ALPHABET_LOWERCASE_L_SYMBOL = 'l'
-const TOKEN_ALPHABET_LOWERCASE_N_SYMBOL = 'n'
-const TOKEN_ALPHABET_LOWERCASE_R_SYMBOL = 'r'
-const TOKEN_ALPHABET_LOWERCASE_S_SYMBOL = 's'
-const TOKEN_ALPHABET_LOWERCASE_T_SYMBOL = 't'
-const TOKEN_ALPHABET_LOWERCASE_U_SYMBOL = 'u'
-const TOKEN_ALPHABET_UPPERCASE_A_SYMBOL = 'A'
-const TOKEN_ALPHABET_UPPERCASE_B_SYMBOL = 'B'
-const TOKEN_ALPHABET_UPPERCASE_C_SYMBOL = 'C'
-const TOKEN_ALPHABET_UPPERCASE_D_SYMBOL = 'D'
-const TOKEN_ALPHABET_UPPERCASE_E_SYMBOL = 'E'
-const TOKEN_ALPHABET_UPPERCASE_F_SYMBOL = 'F'
-const TOKEN_NUMBER_0_SYMBOL = '0'
-const TOKEN_NUMBER_1_SYMBOL = '1'
-const TOKEN_NUMBER_2_SYMBOL = '2'
-const TOKEN_NUMBER_3_SYMBOL = '3'
-const TOKEN_NUMBER_4_SYMBOL = '4'
-const TOKEN_NUMBER_5_SYMBOL = '5'
-const TOKEN_NUMBER_6_SYMBOL = '6'
-const TOKEN_NUMBER_7_SYMBOL = '7'
-const TOKEN_NUMBER_8_SYMBOL = '8'
-const TOKEN_NUMBER_9_SYMBOL = '9'
+const TOKEN_EOF_SYMBOL = 'EOF';
+const TOKEN_LEFT_BRACKET_SYMBOL = '[';
+const TOKEN_RIGHT_BRACKET_SYMBOL = ']';
+const TOKEN_LEFT_BRACE_SYMBOL = '{';
+const TOKEN_RIGHT_BRACE_SYMBOL = '}';
+const TOKEN_COLON_SYMBOL = ':';
+const TOKEN_DOT_SYMBOL = '.';
+const TOKEN_COMMA_SYMBOL = ',';
+const TOKEN_QUOTE_SYMBOL = '"';
+const TOKEN_ESCAPE_CHARACTER_SYMBOL = '\\';
+const TOKEN_SLASH_SYMBOL = '/';
+const TOKEN_NEGATIVE_SYMBOL = '-';
+const TOKEN_NULL_SYMBOL = 'null';
+const TOKEN_TRUE_SYMBOL = 'true';
+const TOKEN_FALSE_SYMBOL = 'false';
+const TOKEN_ALPHABET_LOWERCASE_A_SYMBOL = 'a';
+const TOKEN_ALPHABET_LOWERCASE_B_SYMBOL = 'b';
+const TOKEN_ALPHABET_LOWERCASE_C_SYMBOL = 'c';
+const TOKEN_ALPHABET_LOWERCASE_D_SYMBOL = 'd';
+const TOKEN_ALPHABET_LOWERCASE_E_SYMBOL = 'e';
+const TOKEN_ALPHABET_LOWERCASE_F_SYMBOL = 'f';
+const TOKEN_ALPHABET_LOWERCASE_L_SYMBOL = 'l';
+const TOKEN_ALPHABET_LOWERCASE_N_SYMBOL = 'n';
+const TOKEN_ALPHABET_LOWERCASE_R_SYMBOL = 'r';
+const TOKEN_ALPHABET_LOWERCASE_S_SYMBOL = 's';
+const TOKEN_ALPHABET_LOWERCASE_T_SYMBOL = 't';
+const TOKEN_ALPHABET_LOWERCASE_U_SYMBOL = 'u';
+const TOKEN_ALPHABET_UPPERCASE_A_SYMBOL = 'A';
+const TOKEN_ALPHABET_UPPERCASE_B_SYMBOL = 'B';
+const TOKEN_ALPHABET_UPPERCASE_C_SYMBOL = 'C';
+const TOKEN_ALPHABET_UPPERCASE_D_SYMBOL = 'D';
+const TOKEN_ALPHABET_UPPERCASE_E_SYMBOL = 'E';
+const TOKEN_ALPHABET_UPPERCASE_F_SYMBOL = 'F';
+const TOKEN_NUMBER_0_SYMBOL = '0';
+const TOKEN_NUMBER_1_SYMBOL = '1';
+const TOKEN_NUMBER_2_SYMBOL = '2';
+const TOKEN_NUMBER_3_SYMBOL = '3';
+const TOKEN_NUMBER_4_SYMBOL = '4';
+const TOKEN_NUMBER_5_SYMBOL = '5';
+const TOKEN_NUMBER_6_SYMBOL = '6';
+const TOKEN_NUMBER_7_SYMBOL = '7';
+const TOKEN_NUMBER_8_SYMBOL = '8';
+const TOKEN_NUMBER_9_SYMBOL = '9';
 
 // token symbol const
 const TOKEN_SYMBOL_MAP = {
@@ -155,9 +155,11 @@ function isIgnoreToken(c) {
 // get array real length
 function arrayLength(a) {
   if (!a) {
-    return 0
+    return 0;
   }
-  return Object.keys(a).filter(function (el) { return !(+el % 1) && +el >= 0 && +el < Math.pow(2, 32); }).length
+  return Object.keys(a).filter(function (el) {
+    return !(+el % 1) && +el >= 0 && +el < Math.pow(2, 32);
+  }).length;
 }
 
 // helper method match stack with tokens
@@ -165,7 +167,7 @@ function matchStack(stack, tokens) {
   let pointer = arrayLength(stack);
   let tokensLeft = arrayLength(tokens);
 
-  for (; ;) {
+  for (;;) {
     tokensLeft--;
     pointer--;
 
@@ -188,9 +190,9 @@ function matchStack(stack, tokens) {
 // main lexer
 class Lexer {
   constructor() {
-    this.JSONContent = ""; // input JSON content
-    this.PaddingContent = ""; // padding content for ignored characters and escape characters, etc.
-    this.JSONSegment = ""; // appended JSON segment by the AppendString() method.
+    this.JSONContent = ''; // input JSON content
+    this.PaddingContent = ''; // padding content for ignored characters and escape characters, etc.
+    this.JSONSegment = ''; // appended JSON segment by the AppendString() method.
     this.TokenStack = []; // token stack for input JSON
     this.MirrorTokenStack = []; // token stack for auto-completed tokens
   }
@@ -239,11 +241,13 @@ class Lexer {
 
   // Convert mirror stack token into string
   dumpMirrorTokenStackToString() {
-    var ret = ""
-    this.MirrorTokenStack.slice().reverse().forEach(function (item) {
-      ret += TOKEN_SYMBOL_MAP[item];
-    });
-    return ret
+    var ret = '';
+    this.MirrorTokenStack.slice()
+      .reverse()
+      .forEach(function (item) {
+        ret += TOKEN_SYMBOL_MAP[item];
+      });
+    return ret;
   }
 
   // Skip JSON segment by length n
@@ -273,41 +277,28 @@ class Lexer {
 
   // Set padding content to empty
   cleanPaddingContent() {
-    this.PaddingContent = "";
+    this.PaddingContent = '';
   }
 
   // check if JSON stream stopped at an object property's key start, like `{"`
   streamStoppedInAnObjectKeyStart() {
     // `{`, `"` in stack, or `,`, `"` in stack
-    const case1 = [
-      TOKEN_LEFT_BRACE,
-      TOKEN_QUOTE,
-    ];
-    const case2 = [
-      TOKEN_COMMA,
-      TOKEN_QUOTE,
-    ];
+    const case1 = [TOKEN_LEFT_BRACE, TOKEN_QUOTE];
+    const case2 = [TOKEN_COMMA, TOKEN_QUOTE];
     // `}` in mirror stack
-    const case3 = [
-      TOKEN_RIGHT_BRACE,
-    ];
-    return (matchStack(this.TokenStack, case1) || matchStack(this.TokenStack, case2))
-      && matchStack(this.MirrorTokenStack, case3);
+    const case3 = [TOKEN_RIGHT_BRACE];
+    return (
+      (matchStack(this.TokenStack, case1) ||
+        matchStack(this.TokenStack, case2)) &&
+      matchStack(this.MirrorTokenStack, case3)
+    );
   }
 
   // check if JSON stream stopped in an object property's key, like `{"field`
   streamStoppedInAnObjectKeyEnd() {
     // `{`, `"`, `"` in stack, or `,`, `"`, `"` in stack
-    const case1 = [
-      TOKEN_LEFT_BRACE,
-      TOKEN_QUOTE,
-      TOKEN_QUOTE,
-    ];
-    const case2 = [
-      TOKEN_COMMA,
-      TOKEN_QUOTE,
-      TOKEN_QUOTE,
-    ];
+    const case1 = [TOKEN_LEFT_BRACE, TOKEN_QUOTE, TOKEN_QUOTE];
+    const case2 = [TOKEN_COMMA, TOKEN_QUOTE, TOKEN_QUOTE];
     // `"`, `:`, `n`, `u`, `l`, `l`, `}` in mirror stack
     const case3 = [
       TOKEN_RIGHT_BRACE,
@@ -318,18 +309,17 @@ class Lexer {
       TOKEN_COLON,
       TOKEN_QUOTE,
     ];
-    return (matchStack(this.TokenStack, case1) || matchStack(this.TokenStack, case2))
-      && matchStack(this.MirrorTokenStack, case3);
+    return (
+      (matchStack(this.TokenStack, case1) ||
+        matchStack(this.TokenStack, case2)) &&
+      matchStack(this.MirrorTokenStack, case3)
+    );
   }
-
 
   // check if JSON stream stopped in an object property's value start, like `{"field": "`
   streamStoppedInAnObjectStringValueStart() {
     // `:`, `"` in stack
-    const case1 = [
-      TOKEN_COLON,
-      TOKEN_QUOTE,
-    ];
+    const case1 = [TOKEN_COLON, TOKEN_QUOTE];
     // `n`, `u`, `l`, `l`, `}` in mirror stack
     const case2 = [
       TOKEN_RIGHT_BRACE,
@@ -338,26 +328,23 @@ class Lexer {
       TOKEN_ALPHABET_LOWERCASE_U,
       TOKEN_ALPHABET_LOWERCASE_N,
     ];
-    return matchStack(this.TokenStack, case1) && matchStack(this.MirrorTokenStack, case2);
+    return (
+      matchStack(this.TokenStack, case1) &&
+      matchStack(this.MirrorTokenStack, case2)
+    );
   }
 
   // check if JSON stream stopped in an object property's value finish, like `{"field": "value"`
   streamStoppedInAnObjectValueEnd() {
     // `"`, `}` left
-    const tokens = [
-      TOKEN_RIGHT_BRACE,
-      TOKEN_QUOTE,
-    ];
+    const tokens = [TOKEN_RIGHT_BRACE, TOKEN_QUOTE];
     return matchStack(this.MirrorTokenStack, tokens);
   }
 
   // check if JSON stream stopped in an object property's value start by array, like `{"field":[`
   streamStoppedInAnObjectArrayValueStart() {
     // `:`, `[` in stack
-    const case1 = [
-      TOKEN_COLON,
-      TOKEN_LEFT_BRACKET,
-    ];
+    const case1 = [TOKEN_COLON, TOKEN_LEFT_BRACKET];
     // `n`, `u`, `l`, `l`, `}` in mirror stack
     const case2 = [
       TOKEN_RIGHT_BRACE,
@@ -366,16 +353,16 @@ class Lexer {
       TOKEN_ALPHABET_LOWERCASE_U,
       TOKEN_ALPHABET_LOWERCASE_N,
     ];
-    return matchStack(this.TokenStack, case1) && matchStack(this.MirrorTokenStack, case2);
+    return (
+      matchStack(this.TokenStack, case1) &&
+      matchStack(this.MirrorTokenStack, case2)
+    );
   }
 
   // check if JSON stream stopped in an object property's value start by object, like `{"field":{`
   streamStoppedInAnObjectObjectValueStart() {
     // `:`, `{` in stack
-    const case1 = [
-      TOKEN_COLON,
-      TOKEN_LEFT_BRACE,
-    ];
+    const case1 = [TOKEN_COLON, TOKEN_LEFT_BRACE];
     // `n`, `u`, `l`, `l`, `}` in mirror stack
     const case2 = [
       TOKEN_RIGHT_BRACE,
@@ -384,31 +371,29 @@ class Lexer {
       TOKEN_ALPHABET_LOWERCASE_U,
       TOKEN_ALPHABET_LOWERCASE_N,
     ];
-    return matchStack(this.TokenStack, case1) && matchStack(this.MirrorTokenStack, case2);
+    return (
+      matchStack(this.TokenStack, case1) &&
+      matchStack(this.MirrorTokenStack, case2)
+    );
   }
-
 
   // check if JSON stream stopped in an object property's negative number value start, like `:-`
   streamStoppedInAnObjectNegativeNumberValueStart() {
     // `:`, `-` in stack
-    const case1 = [
-      TOKEN_COLON,
-      TOKEN_NEGATIVE,
-    ];
+    const case1 = [TOKEN_COLON, TOKEN_NEGATIVE];
     return matchStack(this.TokenStack, case1);
   }
 
   // check if JSON stream stopped in an object property's negative number value start, like `-`
   streamStoppedInANegativeNumberValueStart() {
     // `-` in stack
-    const case1 = [
-      TOKEN_NEGATIVE,
-    ];
+    const case1 = [TOKEN_NEGATIVE];
     // `0` in mirror stack
-    const case2 = [
-      TOKEN_NUMBER_0,
-    ];
-    return matchStack(this.TokenStack, case1) && matchStack(this.MirrorTokenStack, case2);
+    const case2 = [TOKEN_NUMBER_0];
+    return (
+      matchStack(this.TokenStack, case1) &&
+      matchStack(this.MirrorTokenStack, case2)
+    );
   }
 
   // check if JSON stream stopped in an array
@@ -419,16 +404,13 @@ class Lexer {
   // check if JSON stream stopped in an array's string value end, like `["value"]`
   streamStoppedInAnArrayStringValueEnd() {
     // `"`, `"` in stack
-    const case1 = [
-      TOKEN_QUOTE,
-      TOKEN_QUOTE,
-    ];
+    const case1 = [TOKEN_QUOTE, TOKEN_QUOTE];
     // `"`, `]` in mirror stack
-    const case2 = [
-      TOKEN_RIGHT_BRACKET,
-      TOKEN_QUOTE,
-    ];
-    return matchStack(this.TokenStack, case1) && matchStack(this.MirrorTokenStack, case2);
+    const case2 = [TOKEN_RIGHT_BRACKET, TOKEN_QUOTE];
+    return (
+      matchStack(this.TokenStack, case1) &&
+      matchStack(this.MirrorTokenStack, case2)
+    );
   }
 
   // check if JSON stream stopped in an object property's value start by array, like `{"field":{`
@@ -446,21 +428,22 @@ class Lexer {
 
   // check if JSON stream stopped in a string, like `""`
   streamStoppedInAString() {
-    return this.getTopTokenOnStack() === TOKEN_QUOTE && this.getTopTokenOnMirrorStack() === TOKEN_QUOTE;
+    return (
+      this.getTopTokenOnStack() === TOKEN_QUOTE &&
+      this.getTopTokenOnMirrorStack() === TOKEN_QUOTE
+    );
   }
 
   // check if JSON stream stopped in a string's unicode escape, like `\u????`
   streamStoppedInAnStringUnicodeEscape() {
     // `\`, `u` in stack
-    const case1 = [
-      TOKEN_ESCAPE_CHARACTER,
-      TOKEN_ALPHABET_LOWERCASE_U,
-    ];
+    const case1 = [TOKEN_ESCAPE_CHARACTER, TOKEN_ALPHABET_LOWERCASE_U];
     // `"` in mirror stack
-    const case2 = [
-      TOKEN_QUOTE,
-    ];
-    return matchStack(this.TokenStack, case1) && matchStack(this.MirrorTokenStack, case2);
+    const case2 = [TOKEN_QUOTE];
+    return (
+      matchStack(this.TokenStack, case1) &&
+      matchStack(this.MirrorTokenStack, case2)
+    );
   }
 
   // check if JSON stream stopped in a number, like `[0-9]`
@@ -476,10 +459,7 @@ class Lexer {
   // check if JSON stream stopped in a number other decimal places (except first place), like `.[0-9]?`
   streamStoppedInANumberDecimalPartMiddle() {
     // `.`, TOKEN_NUMBER in stack
-    const case1 = [
-      TOKEN_DOT,
-      TOKEN_NUMBER,
-    ];
+    const case1 = [TOKEN_DOT, TOKEN_NUMBER];
     return matchStack(this.TokenStack, case1);
   }
 
@@ -487,8 +467,6 @@ class Lexer {
   streamStoppedWithLeadingEscapeCharacter() {
     return this.getTopTokenOnStack() === TOKEN_ESCAPE_CHARACTER;
   }
-
-
 
   // lexer match JSON token method, convert JSON segment to JSON token
   matchToken() {
@@ -629,12 +607,11 @@ class Lexer {
     }
   }
 
-
   // append JSON string to current JSON stream content
   // this method will traversal all token and generate mirror token for complete full JSON
   AppendJSONString(str) {
     this.JSONSegment = str;
-    for (; ;) {
+    for (;;) {
       let [token, tokenSymbol] = this.matchToken();
 
       switch (token) {
@@ -776,11 +753,9 @@ class Lexer {
           if (this.streamStoppedInAnArray()) {
             // push `"` into mirror stack
             this.pushMirrorTokenStack(TOKEN_QUOTE);
-
           } else if (this.streamStoppedInAnArrayStringValueEnd()) {
             // pop `"` from mirror stack
             this.popMirrorTokenStack();
-
           } else if (this.streamStoppedInAnObjectKeyStart()) {
             // push `"`, `:`, `n`, `u`, `l`, `l` into mirror stack
             this.pushMirrorTokenStack(TOKEN_ALPHABET_LOWERCASE_L);
@@ -789,11 +764,9 @@ class Lexer {
             this.pushMirrorTokenStack(TOKEN_ALPHABET_LOWERCASE_N);
             this.pushMirrorTokenStack(TOKEN_COLON);
             this.pushMirrorTokenStack(TOKEN_QUOTE);
-
           } else if (this.streamStoppedInAnObjectKeyEnd()) {
             // pop `"` from mirror stack
             this.popMirrorTokenStack();
-
           } else if (this.streamStoppedInAnObjectStringValueStart()) {
             // pop `n`, `u`, `l`, `l` from mirror stack
             this.popMirrorTokenStack();
@@ -802,12 +775,11 @@ class Lexer {
             this.popMirrorTokenStack();
             // push `"` into mirror stack
             this.pushMirrorTokenStack(TOKEN_QUOTE);
-
           } else if (this.streamStoppedInAnObjectValueEnd()) {
             // pop `"` from mirror stack
             this.popMirrorTokenStack();
           } else {
-            throw new Error("invalid quote token in json stream");
+            throw new Error('invalid quote token in json stream');
           }
           break;
         case TOKEN_COLON:
@@ -846,9 +818,17 @@ class Lexer {
 
           this.itIsPartOfTokenFalse = () => {
             var left = [TOKEN_ALPHABET_LOWERCASE_F];
-            var right = [TOKEN_ALPHABET_LOWERCASE_E, TOKEN_ALPHABET_LOWERCASE_S, TOKEN_ALPHABET_LOWERCASE_L, TOKEN_ALPHABET_LOWERCASE_A];
-            return matchStack(this.TokenStack, left) && matchStack(this.MirrorTokenStack, right);
-          }
+            var right = [
+              TOKEN_ALPHABET_LOWERCASE_E,
+              TOKEN_ALPHABET_LOWERCASE_S,
+              TOKEN_ALPHABET_LOWERCASE_L,
+              TOKEN_ALPHABET_LOWERCASE_A,
+            ];
+            return (
+              matchStack(this.TokenStack, left) &&
+              matchStack(this.MirrorTokenStack, right)
+            );
+          };
 
           if (!this.itIsPartOfTokenFalse()) {
             continue;
@@ -1009,24 +989,54 @@ class Lexer {
 
           // helper functions to check stack states
           this.itIsPartOfTokenFalse1 = () => {
-            const left = [TOKEN_ALPHABET_LOWERCASE_F, TOKEN_ALPHABET_LOWERCASE_A];
-            const right = [TOKEN_ALPHABET_LOWERCASE_E, TOKEN_ALPHABET_LOWERCASE_S, TOKEN_ALPHABET_LOWERCASE_L];
-            return matchStack(this.TokenStack, left) && matchStack(this.MirrorTokenStack, right);
+            const left = [
+              TOKEN_ALPHABET_LOWERCASE_F,
+              TOKEN_ALPHABET_LOWERCASE_A,
+            ];
+            const right = [
+              TOKEN_ALPHABET_LOWERCASE_E,
+              TOKEN_ALPHABET_LOWERCASE_S,
+              TOKEN_ALPHABET_LOWERCASE_L,
+            ];
+            return (
+              matchStack(this.TokenStack, left) &&
+              matchStack(this.MirrorTokenStack, right)
+            );
           };
 
           this.itIsPartOfTokenNull1 = () => {
-            const left = [TOKEN_ALPHABET_LOWERCASE_N, TOKEN_ALPHABET_LOWERCASE_U];
-            const right = [TOKEN_ALPHABET_LOWERCASE_L, TOKEN_ALPHABET_LOWERCASE_L];
-            return matchStack(this.TokenStack, left) && matchStack(this.MirrorTokenStack, right);
+            const left = [
+              TOKEN_ALPHABET_LOWERCASE_N,
+              TOKEN_ALPHABET_LOWERCASE_U,
+            ];
+            const right = [
+              TOKEN_ALPHABET_LOWERCASE_L,
+              TOKEN_ALPHABET_LOWERCASE_L,
+            ];
+            return (
+              matchStack(this.TokenStack, left) &&
+              matchStack(this.MirrorTokenStack, right)
+            );
           };
 
           this.itIsPartOfTokenNull2 = () => {
-            const left = [TOKEN_ALPHABET_LOWERCASE_N, TOKEN_ALPHABET_LOWERCASE_U, TOKEN_ALPHABET_LOWERCASE_L];
+            const left = [
+              TOKEN_ALPHABET_LOWERCASE_N,
+              TOKEN_ALPHABET_LOWERCASE_U,
+              TOKEN_ALPHABET_LOWERCASE_L,
+            ];
             const right = [TOKEN_ALPHABET_LOWERCASE_L];
-            return matchStack(this.TokenStack, left) && matchStack(this.MirrorTokenStack, right);
+            return (
+              matchStack(this.TokenStack, left) &&
+              matchStack(this.MirrorTokenStack, right)
+            );
           };
 
-          if (!this.itIsPartOfTokenFalse1() && !this.itIsPartOfTokenNull1() && !this.itIsPartOfTokenNull2()) {
+          if (
+            !this.itIsPartOfTokenFalse1() &&
+            !this.itIsPartOfTokenNull1() &&
+            !this.itIsPartOfTokenNull2()
+          ) {
             continue;
           }
 
@@ -1100,8 +1110,15 @@ class Lexer {
           // check if `t` in token stack and `r`, `u`, `e` in mirror stack
           this.itIsPartOfTokenTrue = () => {
             const left = [TOKEN_ALPHABET_LOWERCASE_T];
-            const right = [TOKEN_ALPHABET_LOWERCASE_E, TOKEN_ALPHABET_LOWERCASE_U, TOKEN_ALPHABET_LOWERCASE_R];
-            return matchStack(this.TokenStack, left) && matchStack(this.MirrorTokenStack, right);
+            const right = [
+              TOKEN_ALPHABET_LOWERCASE_E,
+              TOKEN_ALPHABET_LOWERCASE_U,
+              TOKEN_ALPHABET_LOWERCASE_R,
+            ];
+            return (
+              matchStack(this.TokenStack, left) &&
+              matchStack(this.MirrorTokenStack, right)
+            );
           };
 
           if (!this.itIsPartOfTokenTrue()) {
@@ -1131,8 +1148,11 @@ class Lexer {
               TOKEN_ALPHABET_LOWERCASE_E,
               TOKEN_ALPHABET_LOWERCASE_S,
             ];
-            return matchStack(this.TokenStack, left) && matchStack(this.MirrorTokenStack, right);
-          }
+            return (
+              matchStack(this.TokenStack, left) &&
+              matchStack(this.MirrorTokenStack, right)
+            );
+          };
           if (!this.itIsPartOfTokenFalse2()) {
             continue;
           }
@@ -1207,16 +1227,32 @@ class Lexer {
 
           // check if `t`, `r` in token stack and, `u`, `e` in mirror stack
           this.itIsPartOfTokenTrue2 = () => {
-            const left = [TOKEN_ALPHABET_LOWERCASE_T, TOKEN_ALPHABET_LOWERCASE_R];
-            const right = [TOKEN_ALPHABET_LOWERCASE_E, TOKEN_ALPHABET_LOWERCASE_U];
-            return matchStack(this.TokenStack, left) && matchStack(this.MirrorTokenStack, right);
+            const left = [
+              TOKEN_ALPHABET_LOWERCASE_T,
+              TOKEN_ALPHABET_LOWERCASE_R,
+            ];
+            const right = [
+              TOKEN_ALPHABET_LOWERCASE_E,
+              TOKEN_ALPHABET_LOWERCASE_U,
+            ];
+            return (
+              matchStack(this.TokenStack, left) &&
+              matchStack(this.MirrorTokenStack, right)
+            );
           };
 
           // check if `n` in token stack and `u`, `l`, `l` in mirror stack
           this.itIsPartOfTokenNull = () => {
             const left = [TOKEN_ALPHABET_LOWERCASE_N];
-            const right = [TOKEN_ALPHABET_LOWERCASE_L, TOKEN_ALPHABET_LOWERCASE_L, TOKEN_ALPHABET_LOWERCASE_U];
-            return matchStack(this.TokenStack, left) && matchStack(this.MirrorTokenStack, right);
+            const right = [
+              TOKEN_ALPHABET_LOWERCASE_L,
+              TOKEN_ALPHABET_LOWERCASE_L,
+              TOKEN_ALPHABET_LOWERCASE_U,
+            ];
+            return (
+              matchStack(this.TokenStack, left) &&
+              matchStack(this.MirrorTokenStack, right)
+            );
           };
           if (!this.itIsPartOfTokenTrue2() && !this.itIsPartOfTokenNull()) {
             continue;
@@ -1295,7 +1331,7 @@ class Lexer {
           if (this.streamStoppedInAnStringUnicodeEscape()) {
             this.pushByteIntoPaddingContent(tokenSymbol);
             // check if unicode escape is full length
-            if (this.PaddingContent.length == 6) {
+            if (this.PaddingContent.length === 6) {
               this.appendPaddingContentToJSONContent();
               this.cleanPaddingContent();
               // pop `\`, `u` from stack
@@ -1422,7 +1458,8 @@ class Lexer {
           this.pushTokenStack(token);
           if (this.streamStoppedInAnObjectNegativeNumberValueStart()) {
             // pop `n`, `u`, `l`, `l` from mirror stack
-            for (let i = 0; i < 4; i++) { // assuming "null" has been pushed into the stack as separate characters
+            for (let i = 0; i < 4; i++) {
+              // assuming "null" has been pushed into the stack as separate characters
               this.popMirrorTokenStack();
             }
           }
@@ -1431,7 +1468,9 @@ class Lexer {
           this.pushMirrorTokenStack(TOKEN_NUMBER_0); // TOKEN_NUMBER_0 needs to be defined somewhere
           break;
         default:
-          throw new Error(`unexpected token: \`${token}\`, token symbol: \`${tokenSymbol}\``);
+          throw new Error(
+            `unexpected token: \`${token}\`, token symbol: \`${tokenSymbol}\``,
+          );
       }
 
       // check if end
@@ -1441,12 +1480,10 @@ class Lexer {
     }
   }
 
-
   // Complete the incomplete JSON string by concat JSON content and mirror tokens
   CompleteJSON() {
     return this.JSONContent + this.dumpMirrorTokenStackToString(); // Assuming an implementation of dumpMirrorTokenStackToString
   }
 }
 
-
-export {Lexer}
+export { Lexer };
