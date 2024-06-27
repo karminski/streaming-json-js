@@ -1,6 +1,6 @@
-# [streaming-json](https://github.com/karminski/streaming-json)
+# [streaming-json](https://github.com/karminski/streaming-json-js)
 [![codecov](https://codecov.io/gh/karminski/streaming-json-js/graph/badge.svg?token=N8TO15P7XE)](https://codecov.io/gh/karminski/streaming-json-js)
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/karminski/streaming-json/blob/master/LICENSE)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/karminski/streaming-json-js/blob/master/LICENSE)
 [![npm](https://img.shields.io/badge/npm-0.1.0-orange.svg)](https://www.npmjs.com/package/streaming-json)
 [![NPM downloads](http://img.shields.io/npm/dm/streaming-json.svg?style=flat-square)](http://www.npmtrends.com/streaming-json)
 
@@ -84,7 +84,7 @@ console.log(lexer.CompleteJSON()); // will print `{"a":[true]}`
 
 For more examples please see: [examples](./examples/)
 
-## Characteristics
+### Characteristics
 
 - Coded in ES6+ or TypeScript, easily compile and generate production code
 - Supports multi environment, including default browsers, Node, AMD, CMD, Webpack, Rollup, Fis and so on.
@@ -94,7 +94,7 @@ For more examples please see: [examples](./examples/)
 turn on `legacy mode`. Under `legacy mode`, the module system can be compatible with `IE6-8`. For more information on legacy mode, 
 please see rollup supplemental file. 
 
-## Compatibility
+### Compatibility
 Unit tests guarantee support on the following environment:
 
 | IE   | CH   | FF   | SF   | OP   | IOS  | Android   | Node  |
@@ -103,6 +103,14 @@ Unit tests guarantee support on the following environment:
 
 > Note: Compiling code depend on ES5, so you need import [es5-shim](http://github.com/es-shims/es5-shim/) to compatible with `IE6-8`, here is a [demo](./demo/demo-global.html)
 
+
+### Try to Find This Library in Another Programming Language?
+
+Please see:
+
+- [streaming-json-go](https://github.com/karminski/streaming-json-go)
+- [streaming-json-py](https://github.com/karminski/streaming-json-py)
+- [streaming-json-js](https://github.com/karminski/streaming-json-js)
 
 
 ### License
