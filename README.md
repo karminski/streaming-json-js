@@ -20,25 +20,25 @@ In an era dominated by LLMs (Large Language Models), the ability to efficiently 
 Using npm, download and install the code. 
 
 ```bash
-$ npm install --save streamingjson
+$ npm install --save streaming-json
 ```
 
 For node environment：
 
 ```js
-const streamingjson = require('streamingjson');
+const streamingjson = require('streaming-json');
 ```
 
 For webpack or similar environment：
 
 ```js
-import streamingjson from 'streamingjson';
+import streamingjson from 'streaming-json';
 ```
 
 For browser environment:
 
 ```html
-<script src="node_modules/streamingjson/dist/index.aio.js"></script>
+<script src="node_modules/streaming-json/dist/index.aio.js"></script>
 ```
 
 ### Example Usage
