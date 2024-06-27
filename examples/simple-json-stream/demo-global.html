@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script src="../../node_modules/es5-shim/es5-shim.js"></script>
+    <script src="../../node_modules/es5-shim/es5-sham.js"></script>
+
+    <script src="../../dist/index.aio.js"></script>
+    <script>
+      // case A, complete the incomplete JSON object
+      lexer = new window['streaming-json'].Lexer()
+      lexer.AppendJSONString(`{"a":`); // will complete to `{"a":null}`
+      console.log(lexer.CompleteJSON());
+
+      // case B, complete the incomplete JSON array
+      lexer = new window['streaming-json'].Lexer()
+      lexer.AppendJSONString(`[t`); // will complete to `[true]`
+      console.log(lexer.CompleteJSON());
+    </script>
+  </body>
+</html>
