@@ -1,7 +1,7 @@
 {
   "name": "streaming-json",
   "version": "0.1.0",
-  "description": "The best third party JS|TS library scaffold",
+  "description": "A streamlined, user-friendly JSON streaming preprocessor, crafted in JavaScript.",
   "sideEffects": false,
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
