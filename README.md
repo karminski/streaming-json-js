@@ -101,7 +101,7 @@ Unit tests guarantee support on the following environment:
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ----- |
 | 11+   | 100+ | 100+  | 16+   | 100+  | 10.3+   | 4.1+   | 16+ |
 
-> Note: Compiling code depend on ES5, so you need import [es5-shim](http://github.com/es-shims/es5-shim/) to compatible with `IE6-8`, here is a [demo](./demo/demo-global.html)
+> Note: Compiling code depend on ES5, so you need import [es5-shim](http://github.com/es-shims/es5-shim/) to compatible with `IE6-8`, here is a [demo](./examples/simple-json-stream/demo-global.html)
 
 
 ### Try to Find This Library in Another Programming Language?
