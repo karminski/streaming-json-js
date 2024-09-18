@@ -1307,6 +1307,9 @@ var Lexer = /*#__PURE__*/function () {
               // pop `\` from stack
               this.popTokenStack();
               continue;
+            } else if (this.streamStoppedInAString()) {
+              this.JSONContent += tokenSymbol;
+              continue;
             }
             break;
           case TOKEN_ESCAPE_CHARACTER:
