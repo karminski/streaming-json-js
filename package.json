@@ -1,6 +1,6 @@
 {
   "name": "streaming-json",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A streamlined, user-friendly JSON streaming preprocessor, crafted in JavaScript.",
   "sideEffects": false,
   "main": "dist/index.js",
