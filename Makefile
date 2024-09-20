@@ -1,5 +1,8 @@
 .PHONY: test push-to-npm
 
+build:
+	npm run build
+
 test:
 	npm run test
 

@@ -1,5 +1,5 @@
 /*!
- * streaming-json 0.1.2 (https://github.com/karminski/streaming-json)
+ * streaming-json 0.1.3 (https://github.com/karminski/streaming-json)
  * API https://github.com/karminski/streaming-json/blob/master/doc/api.md
  * Copyright 2017-2024 karminski. All Rights Reserved
  * Licensed under MIT (https://github.com/karminski/streaming-json/blob/master/LICENSE)
