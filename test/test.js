@@ -1,11 +1,8 @@
 var expect = require('expect.js');
 const assert = require('assert');
 
-
 // js 测试源文件
 var streamingjson = require('../src/index.js');
-
-
 
 describe('Test complete JSON base', () => {
   const testCases = [
@@ -62,9 +59,17 @@ describe('Test complete JSON base', () => {
     [`{"a":"string`, `{"a":"string"}`],
     [`{"a":"string"`, `{"a":"string"}`],
     [`{"a":"string",`, `{"a":"string"}`],
-    [`{"a":"abcdefghijklmnopqrstuvwxyz",`, `{"a":"abcdefghijklmnopqrstuvwxyz"}`],
-    [`{"a":"ABCDEFGHIJKLMNOPQRSTUVWXYZ",`, `{"a":"ABCDEFGHIJKLMNOPQRSTUVWXYZ"}`],
+    [
+      `{"a":"abcdefghijklmnopqrstuvwxyz",`,
+      `{"a":"abcdefghijklmnopqrstuvwxyz"}`,
+    ],
+    [
+      `{"a":"ABCDEFGHIJKLMNOPQRSTUVWXYZ",`,
+      `{"a":"ABCDEFGHIJKLMNOPQRSTUVWXYZ"}`,
+    ],
     [`{"a":"0123456789",`, `{"a":"0123456789"}`],
+    [`{"a":"https://`, `{"a":"https://"}`],
+    [`{"a":"https://example.com/api/v1`, `{"a":"https://example.com/api/v1"}`],
     [`{"a":"\\u0`, `{"a":""}`],
     [`{"a":"\\u00`, `{"a":""}`],
     [`{"a":"\\u004`, `{"a":""}`],
@@ -252,7 +257,10 @@ describe('Test complete JSON base', () => {
     [`{"a":{"b":"c"}}`, `{"a":{"b":"c"}}`],
 
     // test case: multiple object properity
-    [`{"a":1,"b":1.20,"c":0.03,"d":-1,"e":-1.20,"f":-0.03,"g":1.997e3,"h":-1.338e19,"i":"a","j":null,"k":true,"l":false,"m":{},"n":[]]}`, `{"a":1,"b":1.20,"c":0.03,"d":-1,"e":-1.20,"f":-0.03,"g":1.997e3,"h":-1.338e19,"i":"a","j":null,"k":true,"l":false,"m":{},"n":[]]}`],
+    [
+      `{"a":1,"b":1.20,"c":0.03,"d":-1,"e":-1.20,"f":-0.03,"g":1.997e3,"h":-1.338e19,"i":"a","j":null,"k":true,"l":false,"m":{},"n":[]]}`,
+      `{"a":1,"b":1.20,"c":0.03,"d":-1,"e":-1.20,"f":-0.03,"g":1.997e3,"h":-1.338e19,"i":"a","j":null,"k":true,"l":false,"m":{},"n":[]]}`,
+    ],
 
     // test case: basic array element
     [`[`, `[]`],
@@ -339,6 +347,7 @@ describe('Test complete JSON base', () => {
     [`["a","b"`, `["a","b"]`],
     [`["a","b",`, `["a","b"]`],
     [`["a","b"]`, `["a","b"]`],
+    [`["https://example.com/api/v1`, `["https://example.com/api/v1"]`],
     [`["\\u0`, `[""]`],
     [`["\\u00`, `[""]`],
     [`["\\u004`, `[""]`],
@@ -351,6 +360,10 @@ describe('Test complete JSON base', () => {
     [`["\\u0049","\\u0`, `["\\u0049",""]`],
     [`["\\u0049","\\u00`, `["\\u0049",""]`],
     [`["\\u0049","\\u005`, `["\\u0049",""]`],
+    [
+      `["https://example.com/api/v1", "http://example.com:8080/user/sample_user/index.html`,
+      `["https://example.com/api/v1", "http://example.com:8080/user/sample_user/index.html"]`,
+    ],
     [`["\\u0049","\\u0050`, `["\\u0049","\\u0050"]`],
     [`["\\u0049","\\u0050"`, `["\\u0049","\\u0050"]`],
     [`["\\u0049","\\u0050"]`, `["\\u0049","\\u0050"]`],
@@ -429,7 +442,10 @@ describe('Test complete JSON base', () => {
     [`[{"a":[{"b":"c"},{"d":[{`, `[{"a":[{"b":"c"},{"d":[{}]}]}]`],
 
     // test case: multiple array element
-    [`[1,1.20,0.03,-1,-1.20,-0.03,1.997e3,-1.338e19,"a",null,true,false,{},[]]`, `[1,1.20,0.03,-1,-1.20,-0.03,1.997e3,-1.338e19,"a",null,true,false,{},[]]`],
+    [
+      `[1,1.20,0.03,-1,-1.20,-0.03,1.997e3,-1.338e19,"a",null,true,false,{},[]]`,
+      `[1,1.20,0.03,-1,-1.20,-0.03,1.997e3,-1.338e19,"a",null,true,false,{},[]]`,
+    ],
 
     // test case: array as array element
     [`[[`, `[[]]`],
@@ -461,13 +477,28 @@ describe('Test complete JSON base', () => {
     // test case: ignore token
     [`{ }`, `{ }`],
     [`{ " a " : -1.2 , `, `{ " a " : -1.2}`],
-    [`{ " a " : -1.2 , "  b  "  :  " c "  `, `{ " a " : -1.2 , "  b  "  :  " c "}`],
-    [`{ " a " : -1.2 , "  b  "  :  " c "   , "   d"  :  true  `, `{ " a " : -1.2 , "  b  "  :  " c "   , "   d"  :  true}`],
-    [`{ " a " : -1.2 , "  b  "  :  " c "   , "   d"  :  true  , "e   "  : {  } } `, `{ " a " : -1.2 , "  b  "  :  " c "   , "   d"  :  true  , "e   "  : {  } }`],
+    [
+      `{ " a " : -1.2 , "  b  "  :  " c "  `,
+      `{ " a " : -1.2 , "  b  "  :  " c "}`,
+    ],
+    [
+      `{ " a " : -1.2 , "  b  "  :  " c "   , "   d"  :  true  `,
+      `{ " a " : -1.2 , "  b  "  :  " c "   , "   d"  :  true}`,
+    ],
+    [
+      `{ " a " : -1.2 , "  b  "  :  " c "   , "   d"  :  true  , "e   "  : {  } } `,
+      `{ " a " : -1.2 , "  b  "  :  " c "   , "   d"  :  true  , "e   "  : {  } }`,
+    ],
     [`[ ]`, `[ ]`],
     [`[ 1`, `[ 1]`],
-    [`[ 1 , -1.020  , true ,  false,  null`, `[ 1 , -1.020  , true ,  false,  null]`],
-    [`[ 1 , -1.020  , true ,  false,  null,  {   }`, `[ 1 , -1.020  , true ,  false,  null,  {   }]`],
+    [
+      `[ 1 , -1.020  , true ,  false,  null`,
+      `[ 1 , -1.020  , true ,  false,  null]`,
+    ],
+    [
+      `[ 1 , -1.020  , true ,  false,  null,  {   }`,
+      `[ 1 , -1.020  , true ,  false,  null,  {   }]`,
+    ],
   ];
 
   testCases.forEach(([testCase, expected]) => {
@@ -480,10 +511,10 @@ describe('Test complete JSON base', () => {
   });
 });
 
-
 describe('Test complete JSON nested', () => {
   it('should correctly process and validate a complex, nested JSON string', () => {
-    const streamingJSONContent = '{"string": "这是一个字符串", "integer": 42, "float": 3.14159, "boolean_true": true, "boolean_false": false, "null": null, "object": {"empty_object": {}, "non_empty_object": {"key": "value"}, "nested_object": {"nested_key": {"sub_nested_key": "sub_nested_value"}}}, "array":["string in array", 123, 45.67, true, false, null, {"object_in_array": "object_value"},["nested_array"]]}'
+    const streamingJSONContent =
+      '{"string": "这是一个字符串", "integer": 42, "float": 3.14159, "boolean_true": true, "boolean_false": false, "null": null, "object": {"empty_object": {}, "non_empty_object": {"key": "value"}, "nested_object": {"nested_key": {"sub_nested_key": "sub_nested_value"}}}, "array":["string in array", 123, 45.67, true, false, null, {"object_in_array": "object_value"},["nested_array"]]}';
 
     const lexer = new streamingjson.Lexer();
     lexer.AppendString(streamingJSONContent);
@@ -495,7 +526,6 @@ describe('Test complete JSON nested', () => {
     assert.strictEqual(typeof parsedJSON, 'object');
   });
 });
-
 
 describe('Test complete JSON nested 2', () => {
   it('should correctly process and validate a complex, nested JSON string', () => {
@@ -547,7 +577,7 @@ describe('Test complete JSON nested 2', () => {
                         "empty_objects": { },
             "empty_arrays": []
         }
-    }`
+    }`;
 
     const lexer = new streamingjson.Lexer();
     lexer.AppendString(streamingJSONContent);
@@ -559,7 +589,6 @@ describe('Test complete JSON nested 2', () => {
     assert.strictEqual(typeof parsedJSON, 'object');
   });
 });
-
 
 describe('Test complete JSON escape and etc', () => {
   it('should correctly process and validate a complex, nested JSON string', () => {
@@ -585,7 +614,7 @@ describe('Test complete JSON escape and etc', () => {
             "complex_number": 3.14e-10
         }
     }
-}`
+}`;
 
     const lexer = new streamingjson.Lexer();
     lexer.AppendString(streamingJSONContent);

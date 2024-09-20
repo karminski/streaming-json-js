@@ -1420,6 +1420,9 @@ class Lexer {
             // pop `\` from stack
             this.popTokenStack();
             continue;
+          } else if (this.streamStoppedInAString()) {
+            this.JSONContent += tokenSymbol;
+            continue;
           }
           break;
         case TOKEN_ESCAPE_CHARACTER: // TOKEN_ESCAPE_CHARACTER needs to be defined somewhere
